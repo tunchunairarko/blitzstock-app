@@ -1,4 +1,3 @@
 blitzstock_app.pem
 
-loadid
-palletid
+mongo_conn.txt

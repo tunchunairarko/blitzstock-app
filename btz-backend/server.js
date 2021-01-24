@@ -2,13 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-
+const helmet = require("helmet");
 // set up express
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 app.use(express.static("../btz-front/build"))
+app.use(helmet());
+
 
 const PORT = process.env.PORT || 5000;
 
