@@ -9,7 +9,6 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useDidMount, useWillUnmount } from "react-hooks-lib";
-
 import "../assets/Dashboard.scss";
 
 
@@ -36,7 +35,7 @@ export default function Login() {
         try {
             const loginUser = { username, password };
             const loginRes = await Axios.post(
-                "/api/users/login",
+                process.env.apiUrl+`/api/users/login`,
                 loginUser
             );
             setUserData({

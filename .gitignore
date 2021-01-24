@@ -1,3 +1,2 @@
-blitzstock_app.pem
-
-mongo_conn.txt
+/node_modules
+.env
