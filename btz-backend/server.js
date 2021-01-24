@@ -33,5 +33,5 @@ mongoose.connect(
 
 // set up routes
 
-app.use("/users", require("./routes/userRouter"));
-app.use("/products", require("./routes/productRouter"));
+app.use("/api/users", require("./routes/userRouter"));
+app.use("/api/products", require("./routes/productRouter"));

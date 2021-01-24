@@ -19,7 +19,7 @@ const SearchModal = ({show,handleClose,searchQuery,onProductChosen,marketplace})
             }
             else{
                 const tokenResponse = await Axios.post(
-                    "http://localhost:5000/users/tokenIsValid",
+                    "/api/users/tokenIsValid",
                     null,
                     {headers:{"x-auth-token":token}}
                 );
@@ -27,7 +27,7 @@ const SearchModal = ({show,handleClose,searchQuery,onProductChosen,marketplace})
                 const body ={ searchQuery, marketplace }
                 if(tokenResponse.data){
                     const productRes = await Axios.post(
-                        "http://localhost:5000/products",body,{headers:{"x-auth-token":token}},
+                        "/api/products",body,{headers:{"x-auth-token":token}},
                     )
                     
                     setCurrentProductData({
