@@ -8,7 +8,7 @@ require("dotenv").config();
 const app = express();
 app.use(express.json());
 app.use(cors());
-
+app.use(express.static("../btz-front/build"))
 
 const PORT = process.env.PORT || 5000;
 
