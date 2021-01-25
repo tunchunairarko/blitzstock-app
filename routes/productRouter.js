@@ -86,7 +86,7 @@ router.post("/new", auth, async (req, res) => {
 
 })
 
-router.post("/", auth, async (req, res) => {
+router.post("/productList", auth, async (req, res) => {
     try {
 
         //at first get the query
