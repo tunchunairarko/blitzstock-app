@@ -3,6 +3,7 @@ import '../../assets/style.css';
 import UserContext from "../../../context/UserContext";
 import DownloadedProductData from './DownloadedProductData';
 import SearchModule from './SearchModule';
+import { Redirect } from 'react-router-dom';
 // import Dummy from '../../assets/dummy-prod.png';
 
 
