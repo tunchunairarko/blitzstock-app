@@ -15,7 +15,7 @@ function isAsin(strText) {
     return false;
 }
 
-router.post("/new", auth, async (req, res) => {
+router.post("/new",  async (req, res) => {
     try {
         let { username, productInp } = req.body;
         // console.log(user)
@@ -83,7 +83,7 @@ router.post("/new", auth, async (req, res) => {
 
 })
 
-router.post("/productlist", auth, async (req, res) => {
+router.post("/productlist",  async (req, res) => {
     try {
 
         //at first get the query
@@ -127,7 +127,7 @@ router.post("/productlist", auth, async (req, res) => {
 
 });
 
-router.get("/getsku", auth, async (req, res) => {
+router.get("/getsku", async (req, res) => {
     Products.countDocuments({}, function (err, count) {
         count++;
         const sku = "BTZ" + count.toString().padStart(7, "0");
