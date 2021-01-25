@@ -140,7 +140,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                                     <Form.Control placeholder="Enter Retail" value={retail} onChange={(e)=>setRetail(e.target.value)}/>
                                 </Col>
                             </Form.Group>
-                            <Form.Group as={Row} controlId="discountText">
+                            <Form.Group as={Row} >
                                 <Form.Label column sm="2">
                                     Discount
                                 </Form.Label>

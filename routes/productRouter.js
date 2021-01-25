@@ -19,7 +19,6 @@ function isAsin(strText) {
 
 router.post("/new", auth, async (req, res) => {
     try {
-    
         let { username, productInp } = req.body;
         // console.log(user)
         // console.log(productInp.title)
@@ -94,10 +93,13 @@ router.post("/productList", auth, async (req, res) => {
         //1. If UPC, then follow one process (Sellerchamp way, if this one works, then no search list should be generated in the front end)
         //2. If text string, then follow another process (Product Data API way)
         const { searchQuery, marketplace } = req.body;
-
+        if(searchQuery==''){
+            res.status(400).json({error:"Missing query data"})
+        }
+        // console.log(req.body)
         marketplaceString = JSON.stringify(marketplace)
         var query = searchQuery;
-        console.log(query)
+        // console.log(query)
         if (isAsin(query)) {
             // console.log("gaitai")
             let dir = path.join(__dirname, '../python');
