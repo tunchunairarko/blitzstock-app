@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cors());
 // app.use(express.static("../btz-front/build"))
 app.use(helmet());
-app.use(serveStatic("client/public"))
+app.use(serveStatic("client"))
 
 const PORT = process.env.PORT || 4000;
 
