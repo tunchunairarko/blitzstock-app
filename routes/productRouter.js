@@ -91,7 +91,7 @@ router.post("/productlist",  async (req, res) => {
         //1. If UPC, then follow one process (Sellerchamp way, if this one works, then no search list should be generated in the front end)
         //2. If text string, then follow another process (Product Data API way)
         const { searchQuery, marketplace } = req.body;
-        res.status(200).json({ success: err.message });
+        res.status(200).json({ success: "kuso" });
         // if(searchQuery==''){
         //     res.status(400).json({error:"Missing query data"})
         // }
