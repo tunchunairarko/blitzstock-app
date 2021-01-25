@@ -30,7 +30,7 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                     if (tokenResponse.data) {
                         const body = { searchQuery, marketplace }
                         const productRes = await Axios.post(
-                            `/api/products/productList`, body, { headers: { "x-auth-token": token } }
+                            `/api/products/productList`, body, { headers: { "x-auth-token": token }, timeout:300 }
                         )
                         setCurrentProductData({
                             productList: productRes.data,
