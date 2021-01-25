@@ -97,11 +97,12 @@ router.post("/productlist",  async (req, res) => {
         // console.log(req.body)
         marketplaceString = JSON.stringify(marketplace)
         var query = searchQuery;
-        // console.log(query)
+        console.log("12")
         if (isAsin(query)) {
-            // console.log("gaitai")
+            console.log("gaitai")
             let dir = path.join(__dirname, '../python');
-            // console.log(dir)
+            console.log(dir);
+            console.log(process.env.PYTHON_PATH);
             let options = {
                 mode: 'json',
                 pythonPath: process.env.PYTHON_PATH,
@@ -111,7 +112,7 @@ router.post("/productlist",  async (req, res) => {
             };
             PythonShell.run('apiController.py', options, function (err, result) {
                 if (err) throw err;
-                // console.log('result: ', result); 
+                console.log('result: ', result); 
                 res.send(result[0])
             });
 
