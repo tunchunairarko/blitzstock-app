@@ -29,10 +29,11 @@ export default function App() {
                 // history.push("/login");
             }
             else{
+                const newLocal = { headers: { "x-auth-token": token } };
                 const tokenResponse = await Axios.post(
                     `/api/users/tokenIsValid`,
                     null,
-                    {headers:{"x-auth-token":token}}
+                    newLocal
                 );
                 // console.log(tokenResponse.data)
                 if(tokenResponse.data){

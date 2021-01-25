@@ -21,17 +21,19 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                 }
                 else {
                     const tokenResponse = await Axios.post(
-                        `/api/users/tokenIsValid`,
+                        "/api/users/tokenIsValid",
                         null,
                         { headers: { "x-auth-token": token } }
                     );
                     // console.log(searchQuery)
                     
                     if (tokenResponse.data) {
-                        const body = { searchQuery, marketplace }
+                        const body = { searchQuery, marketplace };
                         const productRes = await Axios.post(
-                            `/api/products/productList`, body, { headers: { "x-auth-token": token }, timeout:3000 }
-                        )
+                            "/api/products/productlist", 
+                            body, 
+                            {headers:{"x-auth-token":token}}
+                        );
                         setCurrentProductData({
                             productList: productRes.data,
                         });
