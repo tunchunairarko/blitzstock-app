@@ -45,7 +45,7 @@ export default function Admin() {
                 </div>
 
             ) : (
-                    <Redirect to="/posting" />
+                    <Redirect to="/login" />
                 )}
         </Fragment>
     )
