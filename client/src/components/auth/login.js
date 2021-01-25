@@ -35,7 +35,7 @@ export default function Login() {
         try {
             const loginUser = { username, password };
             const loginRes = await Axios.post(
-                process.env.apiUrl+`/api/users/login`,
+                `/api/users/login`,
                 loginUser
             );
             setUserData({

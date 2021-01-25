@@ -13,7 +13,7 @@ app.use(express.static("client/build"))
 app.use(helmet());
 
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
 

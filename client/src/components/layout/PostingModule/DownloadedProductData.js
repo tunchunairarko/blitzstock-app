@@ -50,7 +50,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                 setError("Please fill up all the missing fields")
             }
             else{
-                const res = await Axios.get(process.env.apiUrl+`/api/products/getsku`,{headers:{"x-auth-token":userData.token}});
+                const res = await Axios.get(`/api/products/getsku`,{headers:{"x-auth-token":userData.token}});
                 var discounted_price=parseFloat(retail)*parseInt(discount)/100;
                 // console.log(res.data)
                 if(res.data){
@@ -72,7 +72,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                     const productInp = product;
                     const data={  username,  productInp }    
                     console.log(data)
-                    const resp = await Axios.post(process.env.apiUrl+`/api/products/new`,data,{headers:{"x-auth-token":userData.token}});
+                    const resp = await Axios.post(`/api/products/new`,data,{headers:{"x-auth-token":userData.token}});
                     const result=resp.data
                     try{
                         setSuccessNotice("Product uploaded successfully. Posting id: "+result.product.id+". SKU: "+sku);

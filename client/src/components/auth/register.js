@@ -39,9 +39,9 @@ export default function Register() {
     
         try {
           const newUser = { username, email, password, passwordCheck, displayName };
-          const registerRes = await Axios.post(process.env.apiUrl+`/api/users/register`, newUser);
+          const registerRes = await Axios.post(`/api/users/register`, newUser);
           console.log(registerRes);
-          const loginRes = await Axios.post(process.env.apiUrl+`/api/users/login`, {
+          const loginRes = await Axios.post(`/api/users/login`, {
             username,
             password,
           });

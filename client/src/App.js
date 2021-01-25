@@ -30,14 +30,14 @@ export default function App() {
             }
             else{
                 const tokenResponse = await Axios.post(
-                    process.env.apiUrl+`/api/users/tokenIsValid`,
+                    `/api/users/tokenIsValid`,
                     null,
                     {headers:{"x-auth-token":token}}
                 );
                 // console.log(tokenResponse.data)
                 if(tokenResponse.data){
                     const userRes = await Axios.get(
-                        process.env.apiUrl+`/api/users/`,{headers:{"x-auth-token":token}},
+                        `/api/users/`,{headers:{"x-auth-token":token}},
                     )
                     setUserData({
                         token,
