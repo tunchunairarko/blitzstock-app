@@ -1,15 +1,12 @@
-import React, { useContext,Fragment, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import '../../assets/style.css';
-import UserContext from "../../../context/UserContext";
 import DownloadedProductData from './DownloadedProductData';
 import SearchModule from './SearchModule';
-import { Redirect } from 'react-router-dom';
 // import Dummy from '../../assets/dummy-prod.png';
 
 
 export default function PostingModule() {
-
-    const { userData } = useContext(UserContext);
+    
     const [title,setTitle] = useState("");
     const [upc,setUpc] = useState("");
     const [retail,setRetail] = useState("");
@@ -18,8 +15,7 @@ export default function PostingModule() {
     
     return (
         <Fragment>
-            {userData.user ? (
-                <div>
+            <div>
                 <h1 className="moduleTitle">Product Posting Module</h1>
                 <SearchModule setTitle={setTitle} setRetail={setRetail} setUpc={setUpc} setDescription={setDescription} setImage={setImage}/>
                 {/* Later on I will add context here */}
@@ -32,10 +28,6 @@ export default function PostingModule() {
                 setTitle={setTitle} setRetail={setRetail} setUpc={setUpc} setDescription={setDescription} setImage={setImage}
                 />
             </div>
-            ) :(
-                <Redirect to="/login" />
-            )}
-            
         </Fragment >
     )
 }
