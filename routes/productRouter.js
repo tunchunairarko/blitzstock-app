@@ -91,34 +91,35 @@ router.post("/productlist",  async (req, res) => {
         //1. If UPC, then follow one process (Sellerchamp way, if this one works, then no search list should be generated in the front end)
         //2. If text string, then follow another process (Product Data API way)
         const { searchQuery, marketplace } = req.body;
-        if(searchQuery==''){
-            res.status(400).json({error:"Missing query data"})
-        }
-        // console.log(req.body)
-        marketplaceString = JSON.stringify(marketplace)
-        var query = searchQuery;
-        // console.log(query)
-        if (isAsin(query)) {
-            // console.log("gaitai")
-            let dir = path.join(__dirname, '../python');
-            // console.log(dir)
-            let options = {
-                mode: 'json',
-                pythonPath: process.env.PYTHON_PATH,
-                pythonOptions: ['-u'], // get print results in real-time 
-                scriptPath: path.join(__dirname, '../python'), //If you are having python_test.py script in same folder, then it's optional. 
-                args: [query, marketplaceString] //An argument which can be accessed in the script using sys.argv[1] 
-            };
-            PythonShell.run('apiController.py', options, function (err, result) {
-                if (err) throw err;
-                // console.log('result: ', result); 
-                res.send(result[0])
-            });
+        res.status(200).json({ success: err.message });
+        // if(searchQuery==''){
+        //     res.status(400).json({error:"Missing query data"})
+        // }
+        // // console.log(req.body)
+        // marketplaceString = JSON.stringify(marketplace)
+        // var query = searchQuery;
+        // // console.log(query)
+        // if (isAsin(query)) {
+        //     // console.log("gaitai")
+        //     let dir = path.join(__dirname, '../python');
+        //     // console.log(dir)
+        //     let options = {
+        //         mode: 'json',
+        //         pythonPath: process.env.PYTHON_PATH,
+        //         pythonOptions: ['-u'], // get print results in real-time 
+        //         scriptPath: path.join(__dirname, '../python'), //If you are having python_test.py script in same folder, then it's optional. 
+        //         args: [query, marketplaceString] //An argument which can be accessed in the script using sys.argv[1] 
+        //     };
+        //     PythonShell.run('apiController.py', options, function (err, result) {
+        //         if (err) throw err;
+        //         // console.log('result: ', result); 
+        //         res.send(result[0])
+        //     });
 
-        }
-        else {
-            res.send('Error')
-        }
+        // }
+        // else {
+        //     res.send('Error')
+        // }
     } catch (err) {
         console.log(err.message)
         res.status(500).json({ error: err.message });
