@@ -3,7 +3,6 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 const helmet = require("helmet");
-const serveStatic = require('serve-static'); 
 // set up express
 
 const app = express();
@@ -13,9 +12,7 @@ app.use(express.static("client/build"))
 app.use(helmet());
 
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
 
 // set up mongoose
 mongoose.connect(
@@ -33,6 +30,9 @@ mongoose.connect(
 
 
 // set up routes
-
-app.use("/api/users", require("./routes/userRouter"));
 app.use("/api/products", require("./routes/productRouter"));
+app.use("/api/users", require("./routes/userRouter"));
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));

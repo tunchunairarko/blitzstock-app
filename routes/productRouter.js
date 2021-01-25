@@ -1,11 +1,9 @@
 const router = require("express").Router();
 const auth = require("../middleware/auth");
-const User = require("../models/userModel");
 const { PythonShell } = require('python-shell');
 const path = require('path');
 const Products = require("../models/productModel");
 const UserProducts = require("../models/userPostedProducts");
-const axios = require('axios')
 
 function isAsin(strText) {
     var asinPattern = new RegExp(/^(B[\dA-Z]{9}|\d{9}(X|\d))$/);
