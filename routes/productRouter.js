@@ -97,7 +97,7 @@ router.post("/", auth, async (req, res) => {
 
         marketplaceString = JSON.stringify(marketplace)
         var query = searchQuery;
-        // console.log(query)
+        console.log(query)
         if (isAsin(query)) {
             // console.log("gaitai")
             let dir = path.join(__dirname, '../python');
