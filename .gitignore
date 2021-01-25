@@ -1,5 +1,6 @@
 /node_modules
 .env
+
 blitzstock_app.pem
 blitzstock_ssh.pem
 mongo_conn.txt
