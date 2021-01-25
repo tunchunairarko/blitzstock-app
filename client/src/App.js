@@ -26,7 +26,7 @@ export default function App() {
             if(token==null){
                 localStorage.setItem("auth-token","");
                 token="";
-                //history.push("/login");
+                history.push("/login");
             }
             else{
                 const tokenResponse = await Axios.post(
