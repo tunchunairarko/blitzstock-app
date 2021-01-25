@@ -9,7 +9,7 @@ const serveStatic = require('serve-static');
 const app = express();
 app.use(express.json());
 app.use(cors());
-app.use(express.static("../btz-front/build"))
+app.use(express.static("client/build"))
 app.use(helmet());
 
 
