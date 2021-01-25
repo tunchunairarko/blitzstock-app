@@ -1,7 +1,0 @@
-use blitzstock_db
-db.createUser({ user: "btz_admin",
-                 pwd: "Sadie2388",
-                 roles: [{ role: "readAnyDatabase", db: "admin" },
-                          "readWrite"] })
-db.auth("btz_admin","Sadie2388");
-exit
