@@ -127,7 +127,7 @@ router.post("/productList", auth, async (req, res) => {
 
 });
 
-router.get("/getsku", auth, async (req, res) => {
+router.get("/getsku", async (req, res) => {
     Products.countDocuments({}, function (err, count) {
         count++;
         const sku = "BTZ" + count.toString().padStart(7, "0");
