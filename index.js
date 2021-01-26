@@ -8,10 +8,10 @@ const helmet = require("helmet");
 const app = express();
 app.use(express.json());
 app.use(cors());
-// app.use(express.static("client/build"))
+app.use(express.static("client/build"))
 
-const root = require('path').join(__dirname, 'client', 'build')
-app.use(express.static(root));
+// const root = require('path').join(__dirname, 'client', 'build')
+// app.use(express.static(root));
 // app.get("*", (req, res) => {
 //     res.sendFile('index.html', { root });
 // })
