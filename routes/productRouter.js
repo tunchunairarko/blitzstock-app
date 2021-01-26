@@ -4,6 +4,9 @@ const { PythonShell } = require('python-shell');
 const path = require('path');
 const Products = require("../models/productModel");
 const UserProducts = require("../models/userPostedProducts");
+var Barcoder = require('barcoder');
+
+
 
 function isAsin(strText) {
     var asinPattern = new RegExp(/^(B[\dA-Z]{9}|\d{9}(X|\d))$/);
@@ -13,6 +16,12 @@ function isAsin(strText) {
         return true;
     }
     return false;
+}
+
+function isUPC(strText) {
+    var validator = new Barcoder('ean13');
+    var res=validator.validate( strText )
+    return res.isValid;
 }
 
 router.post("/new",  async (req, res) => {
@@ -97,12 +106,12 @@ router.post("/productlist",  async (req, res) => {
         // console.log(req.body)
         marketplaceString = JSON.stringify(marketplace)
         var query = searchQuery;
-        console.log("12")
+        // console.log("12")
         if (isAsin(query)) {
-            console.log("gaitai")
+            // console.log("gaitai")
             let dir = path.join(__dirname, '../python');
-            console.log(dir);
-            console.log(process.env.PYTHON_PATH);
+            // console.log(dir);
+            // console.log(process.env.PYTHON_PATH);
             let options = {
                 mode: 'json',
                 pythonPath: process.env.PYTHON_PATH,
@@ -116,6 +125,23 @@ router.post("/productlist",  async (req, res) => {
                 res.send(result[0])
             });
 
+        }
+        else if(isUPC(query)){
+            let dir = path.join(__dirname, '../python');
+            // console.log(dir);
+            // console.log(process.env.PYTHON_PATH);
+            let options = {
+                mode: 'json',
+                pythonPath: process.env.PYTHON_PATH,
+                pythonOptions: ['-u'], // get print results in real-time 
+                scriptPath: path.join(__dirname, '../python'), //If you are having python_test.py script in same folder, then it's optional. 
+                args: [query, marketplaceString] //An argument which can be accessed in the script using sys.argv[1] 
+            };
+            PythonShell.run('apiController.py', options, function (err, result) {
+                if (err) throw err;
+                console.log('result: ', result); 
+                res.send(result[0])
+            });
         }
         else {
             res.send('Error')

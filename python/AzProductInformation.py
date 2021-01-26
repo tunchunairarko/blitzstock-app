@@ -173,10 +173,10 @@ class AzProductInformation(object):
             print(e)
             self.product_list.append({})
 
-# print('*' * 80)
-# print('Search Term: x00192KM3T')
-# AmazonAPI = AzProductInformation('x00192KM3T')
-# pprint(AmazonAPI.product_list)
+print('*' * 80)
+print('Search Term: x00192KM3T')
+AmazonAPI = AzProductInformation('x00192KM3T')
+pprint(AmazonAPI.product_list)
 
 # print('*' * 80)
 # print('Search Term: 047875881525')

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "start-watch": "nodemon index.js",
-    "op":"concurrently \"git pull && cd client && npm run build\"",
+    "op": "concurrently \"git pull && cd client && npm run build\"",
     "dev": "concurrently \"npm run start-watch\" \"cd client && npm start\""
   },
   "repository": {
@@ -23,6 +23,7 @@
   "homepage": "https://github.com/tunchunairarko/mern-btzapp#readme",
   "dependencies": {
     "axios": "^0.21.1",
+    "barcoder": "^2.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
