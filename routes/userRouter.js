@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const auth = require("../middleware/auth");
 const User = require("../models/userModel");
 
+
 router.post("/register", async (req, res) => {
   try {
     let { username, email, password, passwordCheck, displayName } = req.body;
@@ -69,7 +70,9 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
 
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    const token_lifetime=60*1; //in hours
+
+    const token = jwt.sign({ id: user._id, exp: Math.floor(Date.now()/1000)+(60*token_lifetime) }, process.env.JWT_SECRET);
     res.json({
       token,
       user: {

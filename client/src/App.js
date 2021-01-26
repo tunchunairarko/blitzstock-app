@@ -22,7 +22,7 @@ export default function App() {
     useEffect(() =>{
         const checkLoggedIn = async () => {
             let token = localStorage.getItem("auth-token");
-            
+            // console.log(token)
             if(token==null){
                 localStorage.setItem("auth-token","");
                 token="";
@@ -44,7 +44,6 @@ export default function App() {
                         token,
                         user: userRes.data,
                     });
-                    
                 }
             }
         }
@@ -58,10 +57,10 @@ export default function App() {
                     {!userData.user ? <Header /> : <div></div>}
                     <Switch>
                         <Route exact path="/" component={Admin}></Route>
-                        <Route exact path="/login" component={Login}></Route>
-                        <Route exact path="/register" component={Register}></Route>
-                        <Route exact path="/posting" component={Admin}></Route>
-                        <Route exact path="/dashboard" component={Admin}></Route>
+                        <Route path="/login" component={Login}></Route>
+                        <Route path="/register" component={Register}></Route>
+                        <Route path="/posting" component={Admin}></Route>
+                        <Route path="/dashboard" component={Admin}></Route>
                     </Switch>
                 </UserContext.Provider>
             </BrowserRouter>

@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment } from 'react'
+import React, { useContext, useState, Fragment, useEffect } from 'react'
 import UserContext from "../../../context/UserContext";
 import { Redirect } from 'react-router-dom';
 import Aside from '../Aside/Aside';
@@ -10,6 +10,7 @@ import Dashboard from '../Dashboard/dashboard';
 import { Switch, Route } from "react-router";
 
 export default function Admin() {
+    let token = localStorage.getItem("auth-token");
     const { userData } = useContext(UserContext);
     const [collapsed, setCollapsed] = useState(false);
 
@@ -20,11 +21,17 @@ export default function Admin() {
         setToggled(value);
     };
 
+    useEffect(() =>{
+        const findIssues = async () => {
+            console.log(userData);
+        }
+        findIssues();
+    }, []);
     
 
     return (
         <Fragment>
-            {userData.user ? (
+            {token ? (
                 <div id="content-body" className={`app  ${toggled ? 'toggled' : ''}`}>
                     <Aside
                         collapsed={collapsed}
@@ -44,7 +51,7 @@ export default function Admin() {
                     </main>
                 </div>
 
-            ) : (
+            ) : (                    
                     <Redirect to="/login" />
                 )}
         </Fragment>
