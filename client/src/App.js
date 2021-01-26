@@ -44,7 +44,7 @@ export default function App() {
                         token,
                         user: userRes.data,
                     });
-                    console.log(token)
+                    
                 }
             }
         }
@@ -55,7 +55,7 @@ export default function App() {
         <Fragment>
             <BrowserRouter>
                 <UserContext.Provider value={{ userData,setUserData }}>                    
-                    {!userData.user ? <Header /> : <div></div>}
+                    {!userData.token ? <Header /> : <div></div>}
                     <Switch>
                         <Route exact path="/" component={Admin}></Route>
                         <Route path="/login" component={Login}></Route>

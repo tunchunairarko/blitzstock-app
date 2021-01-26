@@ -24,7 +24,7 @@ export default function Admin() {
 
     return (
         <Fragment>
-            {userData.user ? (
+            {userData.token ? (
                 <div id="content-body" className={`app  ${toggled ? 'toggled' : ''}`}>
                     <Aside
                         collapsed={collapsed}
