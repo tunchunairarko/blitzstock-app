@@ -10,7 +10,7 @@ import Dashboard from '../Dashboard/dashboard';
 import { Switch, Route } from "react-router";
 
 export default function Admin() {
-    let token = localStorage.getItem("auth-token");
+    
     const { userData } = useContext(UserContext);
     const [collapsed, setCollapsed] = useState(false);
 
@@ -21,17 +21,20 @@ export default function Admin() {
         setToggled(value);
     };
 
-    useEffect(() =>{
-        const findIssues = async () => {
-            console.log(userData);
+    const tokenEmpty = () =>{
+        let token = localStorage.getItem("auth-token");
+        if(token==""){
+            return true; 
         }
-        findIssues();
-    }, []);
+        else{
+            return false;
+        }
+    }
     
 
     return (
         <Fragment>
-            {token ? (
+            {!tokenEmpty() ? (
                 <div id="content-body" className={`app  ${toggled ? 'toggled' : ''}`}>
                     <Aside
                         collapsed={collapsed}
@@ -52,8 +55,8 @@ export default function Admin() {
                 </div>
 
             ) : (                    
-                    <Redirect to="/login" />
-                )}
+                <Redirect to="/login" />
+            )}
         </Fragment>
     )
 }

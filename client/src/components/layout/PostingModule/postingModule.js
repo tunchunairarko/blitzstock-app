@@ -1,12 +1,23 @@
-import React, { Fragment, useState } from 'react'
+import React, { Fragment, useState,useContext } from 'react'
 import '../../assets/style.css';
 import DownloadedProductData from './DownloadedProductData';
 import SearchModule from './SearchModule';
+import { Redirect } from 'react-router-dom';
+import UserContext from "../../../context/UserContext"; 
 // import Dummy from '../../assets/dummy-prod.png';
 
 
 export default function PostingModule() {
-    
+    const { userData } = useContext(UserContext);
+    const tokenEmpty = () =>{
+        let token = localStorage.getItem("auth-token");
+        if(token==""){
+            return true; 
+        }
+        else{
+            return false;
+        }
+    }
     const [title,setTitle] = useState("");
     const [upc,setUpc] = useState("");
     const [retail,setRetail] = useState("");
@@ -15,6 +26,7 @@ export default function PostingModule() {
     
     return (
         <Fragment>
+            {userData.user ? (
             <div>
                 <h1 className="moduleTitle">Product Posting Module</h1>
                 <SearchModule setTitle={setTitle} setRetail={setRetail} setUpc={setUpc} setDescription={setDescription} setImage={setImage}/>
@@ -28,6 +40,10 @@ export default function PostingModule() {
                 setTitle={setTitle} setRetail={setRetail} setUpc={setUpc} setDescription={setDescription} setImage={setImage}
                 />
             </div>
+            ):(
+                <Redirect to="/login" />
+            )}
         </Fragment >
+        
     )
 }

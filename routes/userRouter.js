@@ -70,7 +70,7 @@ router.post("/login", async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ msg: "Invalid credentials." });
 
-    const token_lifetime=60*1; //in hours
+    const token_lifetime=60*24*10; //in days
 
     const token = jwt.sign({ id: user._id, exp: Math.floor(Date.now()/1000)+(60*token_lifetime) }, process.env.JWT_SECRET);
     res.json({
@@ -109,6 +109,7 @@ router.post("/tokenIsValid", async (req, res) => {
     
     return res.json(true);
   } catch (err) {
+    console.log(err.message)
     res.status(500).json({ error: err.message });
   }
 });
