@@ -87,13 +87,7 @@ const Aside = ({ collapsed, toggled, handleToggleSidebar }) => {
               padding: '20px 24px',
             }}
           >
-            <a
-              href="#"
-              
-              className="sidebar-btn"
-              rel="noopener noreferrer"
-              onClick={logout}
-            >
+            <a href="#" className="sidebar-btn" rel="noopener noreferrer" onClick={logout} >
               <FaSignOutAlt />
               <span> Logout</span>
             </a>
