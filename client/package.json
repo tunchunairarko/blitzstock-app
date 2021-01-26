@@ -1,6 +1,7 @@
 {
   "name": "mern-btz-front",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^24.0.0",
