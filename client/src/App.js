@@ -55,13 +55,13 @@ export default function App() {
         <Fragment>
             <BrowserRouter>
                 <UserContext.Provider value={{ userData,setUserData }}>                    
-                    {!userData.token ? <Header /> : <div></div>}
+                    {!userData.user ? <Header /> : <div></div>}
                     <Switch>
                         <Route exact path="/" component={Admin}></Route>
-                        <Route path="/login" component={Login}></Route>
-                        <Route path="/register" component={Register}></Route>
-                        <Route path="/posting" component={Admin}></Route>
-                        <Route path="/dashboard" component={Admin}></Route>
+                        <Route exact path="/login" component={Login}></Route>
+                        <Route exact path="/register" component={Register}></Route>
+                        <Route exact path="/posting" component={Admin}></Route>
+                        <Route exact path="/dashboard" component={Admin}></Route>
                     </Switch>
                 </UserContext.Provider>
             </BrowserRouter>
