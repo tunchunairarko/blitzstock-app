@@ -50,7 +50,7 @@ export default function App() {
         checkLoggedIn();
     }, []);
 
-    return (k
+    return (
         <Fragment>
             <BrowserRouter>
                 <UserContext.Provider value={{ userData,setUserData }}>                    
