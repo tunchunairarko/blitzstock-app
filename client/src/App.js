@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, Fragment} from 'react'
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import Axios from "axios";
 import Header from './components/layout/Header/header'
@@ -50,8 +50,8 @@ export default function App() {
         checkLoggedIn();
     }, []);
 
-    return (
-        <>
+    return (k
+        <Fragment>
             <BrowserRouter>
                 <UserContext.Provider value={{ userData,setUserData }}>                    
                     {!userData.user ? <Header /> : <div></div>}
@@ -64,7 +64,7 @@ export default function App() {
                     </Switch>
                 </UserContext.Provider>
             </BrowserRouter>
-        </>
+        </Fragment>
         
     );
 }
