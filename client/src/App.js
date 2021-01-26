@@ -22,7 +22,7 @@ export default function App() {
     useEffect(() =>{
         const checkLoggedIn = async () => {
             let token = localStorage.getItem("auth-token");
-            console.log(token)
+            
             if(token==null){
                 localStorage.setItem("auth-token","");
                 token="";
@@ -44,6 +44,7 @@ export default function App() {
                         token,
                         user: userRes.data,
                     });
+                    console.log(token)
                 }
             }
         }
