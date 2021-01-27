@@ -12,14 +12,11 @@ app.use(cors());
 
 const root = require('path').join(__dirname, 'client', 'build')
 app.use(express.static(root));
-app.get("*", (req, res) => {
+app.get("/", (req, res) => {
     res.sendFile('index.html', { root });
 })
 
 app.use(helmet());
-
-
-
 
 // set up mongoose
 mongoose.connect(
@@ -34,12 +31,12 @@ mongoose.connect(
     console.log("MongoDB connection established");
   }
 );
+const PORT = process.env.PORT || 5000;
 
+app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
 
 // set up routes
 app.use("/api/products", require("./routes/productRouter"));
 app.use("/api/users", require("./routes/userRouter"));
 
-const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));

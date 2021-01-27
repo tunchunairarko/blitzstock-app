@@ -8,16 +8,8 @@ import UserContext from "../../../context/UserContext";
 
 
 export default function PostingModule() {
-    const { userData } = useContext(UserContext);
-    const tokenEmpty = () =>{
-        let token = localStorage.getItem("auth-token");
-        if(token==""){
-            return true; 
-        }
-        else{
-            return false;
-        }
-    }
+    
+    
     const [title,setTitle] = useState("");
     const [upc,setUpc] = useState("");
     const [retail,setRetail] = useState("");
@@ -26,7 +18,7 @@ export default function PostingModule() {
     
     return (
         <Fragment>
-            {userData.user ? (
+            
             <div>
                 <h1 className="moduleTitle">Product Posting Module</h1>
                 <SearchModule setTitle={setTitle} setRetail={setRetail} setUpc={setUpc} setDescription={setDescription} setImage={setImage}/>
@@ -40,9 +32,7 @@ export default function PostingModule() {
                 setTitle={setTitle} setRetail={setRetail} setUpc={setUpc} setDescription={setDescription} setImage={setImage}
                 />
             </div>
-            ):(
-                <Redirect to="/login" />
-            )}
+            
         </Fragment >
         
     )

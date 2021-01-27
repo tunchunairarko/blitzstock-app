@@ -1,25 +1,15 @@
 import React, { Fragment } from 'react'
-import { Redirect } from 'react-router-dom'
+import { useCookies } from "react-cookie";
 
 export default function Dashboard() {
-    const tokenEmpty = () =>{
-        let token = localStorage.getItem("auth-token");
-        if(token==""){
-            return true; 
-        }
-        else{
-            return false;
-        }
-    }
+    const [cookies, setCookie] = useCookies(["user"]);
     return (
         <Fragment>
-            {!tokenEmpty() ? (
+            
                 <div>
-                    ffff
+                    Welcome {cookies.username}
                 </div>
-            ):(
-                <Redirect to="/login" />
-            )}            
+                       
         </Fragment>
     )
 }

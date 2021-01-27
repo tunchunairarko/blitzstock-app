@@ -60,7 +60,9 @@ body{
 .searchModalTable{
     font-size: 1em;
 }
-
+.react-bootstrap-table table {
+    table-layout: auto;
+  }
 .searchModalTitle {
     overflow: hidden;
     text-overflow: ellipsis;

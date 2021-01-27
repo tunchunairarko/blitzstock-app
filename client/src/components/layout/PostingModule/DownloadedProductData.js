@@ -8,11 +8,12 @@ import Axios from "axios";
 import UserContext from "../../../context/UserContext";
 import ErrorNotice from "../../misc/ErrorNotice";
 import SuccessNotice from "../../misc/SuccessNotice";
-
+import { useCookies } from "react-cookie";
 
 
 export default function DownloadedProductData({title,upc,description,retail,image,setTitle,setRetail,setUpc,setDescription,setImage}) {
     const { userData } = useContext(UserContext);
+    const [cookies, setCookie] = useCookies(["user"]);
     const [error, setError] = useState();
     const [successNotice, setSuccessNotice] = useState();
     const [quantity, setQuantity]=useState(1);
@@ -54,7 +55,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                 var discounted_price=parseFloat(retail)*parseInt(discount)/100;
                 // console.log(res.data)
                 if(res.data){
-                    var sku=res.data;
+                    var sku=res.data.sku;
                     const product={
                         title:title,
                         upc:upc,
@@ -67,11 +68,11 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                         quantity:quantity,
                         categories:[]
                     }
-                    console.log(product)
-                    const username=userData.user.username;
+                    // console.log(product)
+                    const username=cookies.username;
                     const productInp = product;
-                    const data={  username,  productInp }    
-                    console.log(data)
+                    let data={  username,  productInp }    
+                    // console.log(data)
                     const resp = await Axios.post(`/api/products/new`,data,{headers:{"x-auth-token":userData.token}});
                     const result=resp.data
                     try{

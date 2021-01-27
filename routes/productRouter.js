@@ -7,28 +7,64 @@ const UserProducts = require("../models/userPostedProducts");
 var Barcoder = require('barcoder');
 
 
-
+function dumpError(err) {
+    if (typeof err === 'object') {
+      if (err.message) {
+        console.log('\nMessage: ' + err.message)
+      }
+      if (err.stack) {
+        console.log('\nStacktrace:')
+        console.log('====================')
+        console.log(err.stack);
+      }
+    } else {
+      console.log('dumpError :: argument is not an object');
+    }
+  }
+// async function getSKU (){
+//     var fucker = await Products.estimatedDocumentCount()
+//     fucker++;
+//     console.log(fucker)
+//     const sku = "BTZ" + fucker.toString().padStart(7, "0");
+//     return sku;
+//     // function(err, docCount) {
+//     //     if (err) { return dumpError(err) } //handle possible errors
+//     //     // console.log("erere")
+//     //     docCount++;
+//     //     console.log(docCount)
+//     //     const sku = "BTZ" + docCount.toString().padStart(7, "0");
+//     //     return sku;
+//     // })
+//     // const docCount = await Products.countDocuments({}).exec();
+    
+// }
 function isAsin(strText) {
+    
     var asinPattern = new RegExp(/^(B[\dA-Z]{9}|\d{9}(X|\d))$/);
     var arrMatches = strText.match(asinPattern);
-
-    if (arrMatches[0] == strText) {
-        return true;
+    // console.log(arrMatches)
+    if(arrMatches){
+        if (arrMatches[0] == strText) {
+            return true;
+        }
     }
     return false;
 }
 
 function isUPC(strText) {
-    var validator = new Barcoder('ean13');
-    var res=validator.validate( strText )
-    return res.isValid;
+    // var validator = new Barcoder('ean13');
+    var res=Barcoder.validate( strText )
+    return res;
 }
 
 router.post("/new",  async (req, res) => {
     try {
         let { username, productInp } = req.body;
+        if(!username){
+            username="admin"
+        }
         // console.log(user)
-        // console.log(productInp.title)
+        console.log(productInp)
         //aage shopify te product pathao
         //then db te dhukao
         // const image = "https://cdn.shopify.com/s/files/1/0514/3520/8854/files/surplus-auction.png?v=1609197903"
@@ -54,6 +90,7 @@ router.post("/new",  async (req, res) => {
             // console.log('result: ', result); 
             // res.send(result[0])
             // const response = await axios.post(api_url,productDetails)
+            
             try {
                 const resp = result[0]
                 console.log(resp)
@@ -81,10 +118,12 @@ router.post("/new",  async (req, res) => {
 
                 res.json(resp)
             } catch (err) {
+                dumpError(err)
                 res.status(500).json({ error: err.message })
             }
         });
     } catch (err) {
+        dumpError(err)
         res.status(500).json({ error: err.message });
     }
 
@@ -100,13 +139,15 @@ router.post("/productlist",  async (req, res) => {
         //1. If UPC, then follow one process (Sellerchamp way, if this one works, then no search list should be generated in the front end)
         //2. If text string, then follow another process (Product Data API way)
         const { searchQuery, marketplace } = req.body;
-        if(searchQuery==''){
+        if(!searchQuery){
             res.status(400).json({error:"Missing query data"})
         }
         // console.log(req.body)
         marketplaceString = JSON.stringify(marketplace)
-        var query = searchQuery;
+        var query = searchQuery.toString();
+        console.log(query)
         // console.log("12")
+        
         if (isAsin(query)) {
             // console.log("gaitai")
             let dir = path.join(__dirname, '../python');
@@ -139,7 +180,7 @@ router.post("/productlist",  async (req, res) => {
             };
             PythonShell.run('apiController.py', options, function (err, result) {
                 if (err) throw err;
-                console.log('result: ', result); 
+                // console.log('result: ', result); 
                 res.send(result[0])
             });
         }
@@ -147,19 +188,32 @@ router.post("/productlist",  async (req, res) => {
             res.send('Error')
         }
     } catch (err) {
-        console.log(err.message)
+        dumpError(err)
         res.status(500).json({ error: err.message });
     }
-
-
 });
 
-router.get("/getsku", async (req, res) => {
-    Products.countDocuments({}, function (err, count) {
-        count++;
-        const sku = "BTZ" + count.toString().padStart(7, "0");
-        res.json(sku)
-    })
+router.get("/getsku", auth, async (req, res) => {
+    var DocCounter = await Products.countDocuments({})
+    // console.log(DocCounter)
+    // var count = DocCounter.count;
+    DocCounter++;
+    console.log(DocCounter)
+    const sku = "BTZ" + DocCounter.toString().padStart(7, "0");
+    
+    res.json({
+        sku: sku
+    });
+    // Products.countDocuments({}, function (err, count) {
+    //     if(err){
+    //         dumpError(err)
+    //     } 
+    //     console.log(count)
+    //     count++;
+    //     const sku = "BTZ" + count.toString().padStart(7, "0");
+    //     console.log(sku)
+    //     res.json({sku})
+    // })
 })
 
 module.exports = router;

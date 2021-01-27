@@ -7,16 +7,14 @@ import Admin from './components/layout/Admin/Admin'
 import Login from './components/auth/login'
 import Register from './components/auth/register'
 import UserContext from "./context/UserContext";
-import { useDidMount } from "react-hooks-lib";
-import { useHistory } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { useHistory} from "react-router-dom";
 
 import PrivateRoute from "./router/PrivateRoute";
 import PublicRoute from './router/PublicRoute';
-
-
-
 //"exact property fixes the issue of the Route component to skip looking for child paths"
 export default function App() {
+    const [cookies, setCookie] = useCookies(["user"]);
     const [userData, setUserData] = useState ({
         token: undefined,
         user: undefined,
@@ -24,13 +22,24 @@ export default function App() {
     
     let history = useHistory();
     
-    useDidMount(() =>{
-        const checkLoggedIn = async () => {
+    useEffect(() =>{
+        const checkLoggedIn = async (e) => {
+            
             let token = localStorage.getItem("auth-token");
             // console.log(token)
             if(token==null){
                 localStorage.setItem("auth-token","");
                 token="";
+                setCookie("username", "", {
+                    path: "/"
+                });
+
+                setCookie("email", "", {
+                    path: "/"
+                });
+                setCookie("displayName", "", {
+                    path: "/"
+                });
                 // history.push("/login");
             }
             else{
@@ -42,23 +51,9 @@ export default function App() {
                     newLocal
                 ).catch(function(error){
                     if (error.response) {
-                        // The request was made and the server responded with a status code
-                        // that falls out of the range of 2xx
-                        // console.log(error.response.data);
-                        // console.log(error.response.status);
-                        // console.log(error.response.headers);
                         tokenError=true;   
                       } 
-                    //   else if (error.request) {
-                    //     // The request was made but no response was received
-                    //     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    //     // http.ClientRequest in node.js
-                    //     console.log(error.request);
-                    //   } else {
-                    //     // Something happened in setting up the request that triggered an Error
-                    //     console.log('Error', error.message);
-                    //   }
-                    //   console.log(error.config);
+                    
                 })
                 if(tokenError){
                     setUserData({
@@ -66,7 +61,17 @@ export default function App() {
                         user:undefined
                       });
                     localStorage.setItem("auth-token","");
-                      
+                    setCookie("username", "", {
+                        path: "/"
+                    });
+
+                    setCookie("email", "", {
+                        path: "/"
+                    });
+                    setCookie("displayName", "", {
+                        path: "/"
+                    });
+                    window.location.replace("/login", { path: '/' });
                     // history.push("/login");
                     // logout();
                 }
@@ -74,11 +79,22 @@ export default function App() {
                 else{
                     if(tokenResponse.data){
                         const userRes = await Axios.get(
-                            `/api/users/`,{headers:{"x-auth-token":token}},
+                            `/api/users/`,{headers:{"x-auth-token":token,'Content-Type': 'application/json;charset=UTF-8'}},
                         )
+                        // console.log(userRes.data)
                         setUserData({
                             token,
                             user: userRes.data,
+                        });
+                        setCookie("username", userRes.data.username, {
+                            path: "/"
+                        });
+
+                        setCookie("email", userRes.data.email, {
+                            path: "/"
+                        });
+                        setCookie("displayName", userRes.data.displayName, {
+                            path: "/"
                         });
                     }
                 }

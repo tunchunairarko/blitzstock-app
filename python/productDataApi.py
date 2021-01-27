@@ -1,6 +1,6 @@
 import requests
 import dpath  # https://github.com/akesterson/dpath-python
-from pprint import pprint  # Needed for printing responses, can be deleted.
+from pprint import pprint  # Needed for #printing responses, can be deleted.
 import re
 import AzProductInformation
 
@@ -75,10 +75,10 @@ class ProductDataAPIWithKeyword(object):
     def get_query_details(self):
         endpoints=['identifiers','lookup','product-data','search']
         query_url=self.url+endpoints[3]+'?keyword='+self.query+'&api_key='+self.keys['primary']
-        # print(query_url)
+        # #print(query_url)
         r=requests.get(query_url,headers=self.headers)
         data=r.json()
-        #print(data)
+        ##print(data)
         if(data['status']==404):
             self.product_list.append({})
             return
@@ -112,10 +112,10 @@ class ProductDataAPIWithMPN(object):
     def get_query_details(self):
         endpoints=['identifiers','lookup','product-data','search']
         query_url=self.url+endpoints[3]+'?keyword='+self.query+'&mpn='+self.query+'&api_key='+self.keys['primary']
-        # print(query_url)
+        # #print(query_url)
         r=requests.get(query_url,headers=self.headers)
         data=r.json()
-        #print(data)
+        ##print(data)
         if(data['status']==404):
             self.product_list.append({})
             return
@@ -139,17 +139,17 @@ class ProductDataAPIWithMPN(object):
         try:                    
             item['source']=data['items']['pricing'][0]['seller']
         except Exception as e:
-            print(e)
+            #print(e)
             pass
         try:                    
             item['product_url']=data['items']['pricing'][0]['link']
         except Exception as e:
-            print(e)
+            #print(e)
             pass
         try:                    
             item['image']=data['items']['images'][0]
         except Exception as e:
-            print(e)
+            #print(e)
             pass
         self.product_list.append(item)
 class ProductDataAPI(object):
@@ -189,7 +189,7 @@ class ProductDataAPI(object):
                 query_url=self.url+endpoints[1]+'?upc='+self.query+'&api_key='+self.keys['primary']
                 r=requests.get(query_url,headers=self.headers)
                 data=r.json()
-                print(r.status_code)
+                #print(r.status_code)
                 if(r.status_code==404):
                     self.product_list.append({})
                     return
@@ -213,25 +213,25 @@ class ProductDataAPI(object):
                 try:                    
                     item['source']=data['items']['pricing'][0]['seller']
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 try:                    
                     item['product_url']=data['items']['pricing'][0]['link']
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 try:                    
                     item['image']=data['items']['images'][0]
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 self.product_list.append(item)
             else:
                 query_url=self.url+endpoints[3]+'?keyword='+self.query+'&mpn='+self.query+'&api_key='+self.keys['primary']
-                # print(query_url)
+                # #print(query_url)
                 r=requests.get(query_url,headers=self.headers)
                 data=r.json()
-                print(r.status_code)
+                #print(r.status_code)
                 if(data['status']==404):
                     self.product_list.append({})
                     return
@@ -255,17 +255,17 @@ class ProductDataAPI(object):
                 try:                    
                     item['source']=data['items']['pricing'][0]['seller']
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 try:                    
                     item['product_url']=data['items']['pricing'][0]['link']
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 try:                    
                     item['image']=data['items']['images'][0]
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 self.product_list.append(item)
         else:
@@ -273,11 +273,11 @@ class ProductDataAPI(object):
             match=re.match(regex,self.query,flags=re.IGNORECASE)
             if(match): #BEST CHOICE PRODUCTS
                 query_url=self.url+endpoints[3]+'?keyword='+self.query+'&mpn='+self.query+'&api_key='+self.keys['primary']
-                # print(query_url)
+                # #print(query_url)
                 r=requests.get(query_url,headers=self.headers)
                 
                 data=r.json()
-                print(r.status_code)
+                #print(r.status_code)
                 if(data['status']==404):
                     self.product_list.append({})
                     return
@@ -301,18 +301,18 @@ class ProductDataAPI(object):
                 try:                    
                     item['source']=data['items']['pricing'][0]['seller']
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 try:                    
                     item['product_url']=data['items']['pricing'][0]['link']
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 try:                    
                     item['image']=data['items']['images'][0]
                 except Exception as e:
-                    # print('lsadf')
-                    print(e)
+                    # #print('lsadf')
+                    #print(e)
                     pass
                 self.product_list.append(item)
                 return
@@ -327,7 +327,7 @@ class ProductDataAPI(object):
                         query_url=self.url+endpoints[3]+'?keyword='+mpn+'&mpn='+mpn+'&api_key='+self.keys['primary']
                         r=requests.get(query_url,headers=self.headers)
                         data=r.json()
-                        print(r.status_code)
+                        #print(r.status_code)
                         if(data['status']==404):
                             self.product_list.append({})
                             return
@@ -351,23 +351,23 @@ class ProductDataAPI(object):
                         try:                    
                             item['source']=data['items']['pricing'][0]['seller']
                         except Exception as e:
-                            print(e)
+                            #print(e)
                             pass
                         try:                    
                             item['product_url']=data['items']['pricing'][0]['link']
                         except Exception as e:
-                            print(e)
+                            #print(e)
                             pass
                         try:                    
                             item['image']=data['items']['images'][0]
                         except Exception as e:
-                            print(e)
+                            #print(e)
                             pass
                         self.product_list.append(item)
                 else:
                     query_url=self.url+endpoints[3]+'?keyword='+self.query+'&api_key='+self.keys['primary']
                     r=requests.get(query_url,headers=self.headers)
-                    print(r.status_code)
+                    #print(r.status_code)
                     data=r.json()
                     if(data['status']==404):
                         self.product_list.append({})
@@ -393,23 +393,23 @@ class ProductDataAPI(object):
                     try:                    
                         item['source']=data['items']['pricing'][0]['seller']
                     except Exception as e:
-                        print(e)
+                        #print(e)
                         pass
                     try:                    
                         item['product_url']=data['items']['pricing'][0]['link']
                     except Exception as e:
-                        print(e)
+                        #print(e)
                         pass
                     try:                    
                         item['image']=data['items']['images'][0]
                     except Exception as e:
-                        print(e)
+                        #print(e)
                         pass
                     self.product_list.append(item)
             else:
                 if(self.query.find(' ')==-1):
                     query_url=self.url+endpoints[3]+'?keyword='+self.query+'&mpn='+self.query+'&api_key='+self.keys['primary']
-                    # print(query_url)
+                    # #print(query_url)
                     r=requests.get(query_url,headers=self.headers)
                     data=r.json()
                     if(data['status']==404):
@@ -435,17 +435,17 @@ class ProductDataAPI(object):
                     try:                    
                         item['source']=data['items']['pricing'][0]['seller']
                     except Exception as e:
-                        print(e)
+                        #print(e)
                         pass
                     try:                    
                         item['product_url']=data['items']['pricing'][0]['link']
                     except Exception as e:
-                        print(e)
+                        #print(e)
                         pass
                     try:                    
                         item['image']=data['items']['images'][0]
                     except Exception as e:
-                        print(e)
+                        #print(e)
                         pass
                     self.product_list.append(item)
                     return
@@ -475,17 +475,17 @@ class ProductDataAPI(object):
                 try:                    
                     item['source']=data['items']['pricing'][0]['seller']
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 try:                    
                     item['product_url']=data['items']['pricing'][0]['link']
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 try:                    
                     item['image']=data['items']['images'][0]
                 except Exception as e:
-                    print(e)
+                    #print(e)
                     pass
                 self.product_list.append(item)
         # try:https://api.apigenius.io/products/search?keyword=0003093730273&mpn=0003093730273&api_key=5db34e7105f6491e99b02f4d5fca37c0
@@ -497,7 +497,7 @@ class ProductDataAPI(object):
         #     data=r.json()
         #     if(data['status']==404):
         #         return
-        #     #print(data)
+        #     ##print(data)
         # except Exception as e:
         #     #2nd case: Check if the query is a keyword or not
         #     ql=len(self.query)
@@ -531,12 +531,12 @@ class ProductDataAPI(object):
 #     }
 
 # r = requests.request("GET", url, headers=headers, params=querystring)
-# print(r.json())
+# #print(r.json())
 
 
 def main():
     # p=ProductDataUPC('SKY1263')
     p=ProductDataAPIWithKeyword('x00192KM3T')
-    print(p.product_list)
+    #print(p.product_list)
 if __name__=='__main__':
     main()

@@ -1,6 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Modal, Button, Table, Image } from 'react-bootstrap'
 import Axios from "axios";
+import BootstrapTable from 'react-bootstrap-table-next';
 
 const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketplace }) => {
 
@@ -52,8 +53,43 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
         }
     }
 
+    const selectRow = {
+        mode: 'radio',
+        clickToSelect: true,
+        onSelect: (row, isSelect, rowIndex, e) =>{setUserChosenProduct(currentProductData.productList[rowIndex])},
+        style: (row, rowIndex) => {
+          const backgroundColor = rowIndex > 1 ? '#00BFFF' : '#00FFFF';
+          return { backgroundColor };
+        }
+      };
 
-
+      const columns=[
+        {
+            dataField: 'image',
+            text: 'Image',
+            formatter:imageFormatter
+        },
+        {
+            dataField: 'asinid',
+            text: 'UPC/ASIN'
+        },
+        {
+            dataField: 'title',
+            text: 'Title'
+        },
+        {
+            dataField: 'price',
+            text: 'Price'
+        },
+        {
+            dataField: 'source',
+            text: 'Source'
+        }
+    ]
+    function imageFormatter(cell, row){
+        return (<Image src={cell} fluid/>) ;
+      }
+      
     return (
         <Fragment>
             <Modal size="lg" show={show} onHide={handleClose} backdrop="static" keyboard={false} centered>
@@ -62,30 +98,15 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                 </Modal.Header>
                 <Modal.Body>
                     {currentProductData.productList ? (
-                        <Table className="searchModalTable" striped bordered hover size="sm" responsive>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Image</th>
-                                    <th>UPC/ASIN</th>
-                                    <th>Title</th>
-                                    <th>Retail</th>
-                                    <th>Source</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {Array.from({ length: currentProductData.productList.length }).map((_, index) => (
-                                    <tr value={index} onClick={(e) => setUserChosenProduct(currentProductData.productList[index])}>
-                                        <td >{index + 1}</td>
-                                        <td><Image className="searchModalImage" src={currentProductData.productList[index].image} thumbnail fluid /></td>
-                                        <td>{currentProductData.productList[index].asinid}</td>
-                                        <td className="searchModalTitle">{currentProductData.productList[index].title}</td>
-                                        <td>{currentProductData.productList[index].price}</td>
-                                        <td>{currentProductData.productList[index].source}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                        <BootstrapTable
+                        keyField='asinid'
+                        data={ currentProductData.productList }
+                        columns={ columns }
+                        selectRow={ selectRow }
+                        wrapperClasses="table-responsive"
+                        rowClasses="text-nowrap"
+                        
+                      />
                     ) : (
                             <div>Retrieving data from APIs. Please wait.......</div>
                         )}

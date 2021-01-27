@@ -134,6 +134,7 @@ class SellerChamp(object):
         r=requests.get(url,headers=headers)
         data=r.content
         data=json.loads(data)
+        # print(data)
         for i in range(10):            
             if(data['manifests'][0]['processing']==False):
                 break
