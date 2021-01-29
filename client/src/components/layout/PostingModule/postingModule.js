@@ -2,10 +2,10 @@ import React, { Fragment, useState,useContext } from 'react'
 import '../../assets/style.css';
 import DownloadedProductData from './DownloadedProductData';
 import SearchModule from './SearchModule';
-import { Redirect } from 'react-router-dom';
-import UserContext from "../../../context/UserContext"; 
+// import { Redirect } from 'react-router-dom';
+// import UserContext from "../../../context/UserContext"; 
 // import Dummy from '../../assets/dummy-prod.png';
-
+import ModuleHeader from "../ModuleHeader/ModuleHeader";
 
 export default function PostingModule() {
     
@@ -20,7 +20,7 @@ export default function PostingModule() {
         <Fragment>
             
             <div>
-                <h1 className="moduleTitle">Product Posting Module</h1>
+                <ModuleHeader moduleName={"Posting Module"}/>
                 <SearchModule setTitle={setTitle} setRetail={setRetail} setUpc={setUpc} setDescription={setDescription} setImage={setImage}/>
                 {/* Later on I will add context here */}
                 <DownloadedProductData 

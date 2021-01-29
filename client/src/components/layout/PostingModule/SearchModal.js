@@ -1,44 +1,56 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Modal, Button, Table, Image } from 'react-bootstrap'
+import { Modal, Button, Row, Image } from 'react-bootstrap'
 import Axios from "axios";
 import BootstrapTable from 'react-bootstrap-table-next';
+import Loader from 'react-loader-spinner';
+import "../../../components/assets/style.css"
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketplace }) => {
 
     const [userChosenProduct, setUserChosenProduct] = useState({});
-
+    const [loaderVisible, setLoaderVisible] = useState(true);
     //popup theke data niye ekhon form e boshaite hobe
     const [currentProductData, setCurrentProductData] = useState({
         productList: undefined,
     });
+    // useDidMount(()=>{
+    //     // setCurrentProductData({productList:undefined});
+    //     setLoaderVisible(true);
+    //     console.log(loaderVisible);
+    // })
     useEffect(() => {
-        const getProductList = async () => {
-            if (searchQuery) {
-                console.log(searchQuery)
-                let token = localStorage.getItem("auth-token");
-                if (token == null) {
-                    localStorage.setItem("auth-token", "");
-                    token = "";
-                }
-                else {
-                    const tokenResponse = await Axios.post(
-                        "/api/users/tokenIsValid",
-                        null,
-                        { headers: { "x-auth-token": token } }
-                    );
-                    // console.log(searchQuery)
-                    
-                    if (tokenResponse.data) {
-                        const body = { searchQuery, marketplace };
-                        const productRes = await Axios.post(
-                            "/api/products/productlist", 
-                            body
-                        );
-                        setCurrentProductData({
-                            productList: productRes.data,
-                        });
+        const getProductList = async () => {            
+            if(!currentProductData.productList){
+                setLoaderVisible(true)
+                if (searchQuery) {
+                    console.log(searchQuery)
+                    let token = localStorage.getItem("auth-token");
+                    if (token == null) {
+                        localStorage.setItem("auth-token", "");
+                        token = "";
                     }
-
+                    else {
+                        const tokenResponse = await Axios.post(
+                            "/api/users/tokenIsValid",
+                            null,
+                            { headers: { "x-auth-token": token } }
+                        );
+                        // console.log(searchQuery)
+                        
+                        if (tokenResponse.data) {
+                            const body = { searchQuery, marketplace };
+                            const productRes = await Axios.post(
+                                "/api/products/productlist", 
+                                body
+                            );
+                            setCurrentProductData({
+                                productList: productRes.data,
+                            });
+                            setLoaderVisible(false);
+                        }
+    
+                    }
                 }
             }
         }
@@ -49,7 +61,11 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
         e.preventDefault();
         if (userChosenProduct) {
             onProductChosen(userChosenProduct)
-            handleClose();
+            // setCurrentProductData(undefined)
+            // setLoaderVisible(true);
+            // console.log("Ku")
+            // console.log(currentProductData)
+            handleClose(currentProductData,loaderVisible);
         }
     }
 
@@ -92,7 +108,7 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
       
     return (
         <Fragment>
-            <Modal size="lg" show={show} onHide={handleClose} backdrop="static" keyboard={false} centered>
+            <Modal size="lg" show={show} onHide={(e)=>handleClose(currentProductData,loaderVisible)} backdrop="static" keyboard={false} centered>
                 <Modal.Header closeButton>
                     <Modal.Title id="searchResTitle">Search result for {searchQuery}</Modal.Title>
                 </Modal.Header>
@@ -108,11 +124,21 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                         
                       />
                     ) : (
-                            <div>Retrieving data from APIs. Please wait.......</div>
+                        
+                        <Row className="justify-content-md-center">
+                            <Loader
+                            className="searchLoader"
+                            type="TailSpin"
+                            color="#00BFFF"
+                            height={100}
+                            width={100}
+                            visible={loaderVisible} />
+                        </Row>                        
+        
                         )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={(e)=>handleClose(currentProductData,loaderVisible)}>
                         Close
                     </Button>
                     <Button variant="primary" type="submit" onClick={chooseProduct}>Choose</Button>

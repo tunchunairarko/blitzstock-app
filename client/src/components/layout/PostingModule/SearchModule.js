@@ -25,8 +25,13 @@ export default function SearchModule({setTitle,setRetail,setUpc,setDescription,s
 
     const [searchQuery, setSearchQuery] = useState("");
     
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleClose = (currentProductData,loaderVisible) => {
+        loaderVisible=true;
+        currentProductData.productList=undefined;
+        loaderVisible=true;
+        setShow(false);
+    };
+    const handleShow = () => {setShow(true)};
 
     
     const handleSearchQuery = (value) => {
@@ -37,7 +42,7 @@ export default function SearchModule({setTitle,setRetail,setUpc,setDescription,s
     };
     
     const setUserChosenProductData = (product) =>{
-        console.log(product)
+        // console.log(product)
         setTitle(product.title)
         setRetail(product.price)
         setDescription(product.description)

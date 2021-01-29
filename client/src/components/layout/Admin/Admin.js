@@ -20,8 +20,7 @@ export default function Admin() {
     };
     
     return (
-        <Fragment>
-            
+        <Fragment>            
                 <div id="content-body" className={`app  ${toggled ? 'toggled' : ''}`}>
                     <Aside
                         collapsed={collapsed}
@@ -35,13 +34,11 @@ export default function Admin() {
                         <div className="container-fluid">
                             <Switch>
                                 <PrivateRoute component={PostingModule} path="/posting"  />
-                                <PrivateRoute component={Dashboard} path="/" />
+                                <PrivateRoute component={Dashboard} path="/dashboard" />
                             </Switch>
                         </div>
                     </main>
                 </div>
-
-            )
         </Fragment>
     )
 }
