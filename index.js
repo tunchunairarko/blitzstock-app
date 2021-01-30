@@ -16,7 +16,7 @@ app.use(express.static(root));
 
 
 
-app.get("/\/((?!api).)*/", function (req, res) {
+app.use("/\/((?!api).)*/", function (req, res) {
   res.sendFile('index.html', { root });
 })
 
