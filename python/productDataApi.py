@@ -195,17 +195,10 @@ class ProductDataAPI(object):
                     return
                 item = {'asinid': data['items']['upc'],
                     'title': data['items']['title'],
-                    'rank': '',
-                    'package_quantity': '1',
                     'retailer': data['items']['brand'],
                     'image': '',
                     'description':data['items']['description'],
                     'price': data['items']['lowest_pricing'],
-                    'url': '',
-                    'height': data['items']['dimension'],
-                    'width':data['items']['dimension'],
-                    'length':data['items']['dimension'],
-                    'weight':data['items']['weight'],
                     'model_no':data['items']['mpn'],
                     'source':'',
                     'product_url':'' 
@@ -237,19 +230,12 @@ class ProductDataAPI(object):
                     return
                 item = {'asinid': data['items']['upc'],
                     'title': data['items']['title'],
-                    'rank': '',
-                    'package_quantity': '1',
                     'retailer': data['items']['brand'],
                     'image': '',
                     'description':data['items']['description'],
                     'price': data['items']['lowest_pricing'],
-                    'url': '',
-                    'height': data['items']['dimension'],
-                    'width':data['items']['dimension'],
-                    'length':data['items']['dimension'],
-                    'weight':data['items']['weight'],
                     'model_no':data['items']['mpn'],
-                    'source':'',
+                    'source':'Product Data API',
                     'product_url':''  
                 }
                 try:                    
@@ -283,19 +269,12 @@ class ProductDataAPI(object):
                     return
                 item = {'asinid': data['items']['upc'],
                     'title': data['items']['title'],
-                    'rank': '',
-                    'package_quantity': '1',
                     'retailer': data['items']['brand'],
                     'image': '',
                     'description':data['items']['description'],
                     'price': data['items']['lowest_pricing'],
-                    'url': '',
-                    'height': data['items']['dimension'],
-                    'width':data['items']['dimension'],
-                    'length':data['items']['dimension'],
-                    'weight':data['items']['weight'],
                     'model_no':data['items']['mpn'],
-                    'source':'',
+                    'source':'Product Data API',
                     'product_url':''  
                 }
                 try:                    
@@ -316,96 +295,96 @@ class ProductDataAPI(object):
                     pass
                 self.product_list.append(item)
                 return
-            if(ql==10) and (any(char.isdigit() for char in self.query)==True):#there is a chance it is an ASIN
-                regex=r'([A-Z0-9]{10})'
-                match=re.match(regex,self.query)
-                if(match):
-                    api=AzProductInformation.AzProductInformation(self.query)                
-                    prodSearch=api.product_list[0]
-                    if not(prodSearch['model_no']==None):
-                        mpn=prodSearch['model_no']
-                        query_url=self.url+endpoints[3]+'?keyword='+mpn+'&mpn='+mpn+'&api_key='+self.keys['primary']
-                        r=requests.get(query_url,headers=self.headers)
-                        data=r.json()
-                        #print(r.status_code)
-                        if(data['status']==404):
-                            self.product_list.append({})
-                            return
-                        item = {'asinid': data['items']['upc'],
-                            'title': data['items']['title'],
-                            'rank': '',
-                            'package_quantity': '1',
-                            'retailer': data['items']['brand'],
-                            'image': '',
-                            'description':data['items']['description'],
-                            'price': data['items']['lowest_pricing'],
-                            'url': '',
-                            'height': data['items']['dimension'],
-                            'width':data['items']['dimension'],
-                            'length':data['items']['dimension'],
-                            'weight':data['items']['weight'],
-                            'model_no':data['items']['mpn'],
-                            'source':'',
-                            'product_url':''  
-                        }
-                        try:                    
-                            item['source']=data['items']['pricing'][0]['seller']
-                        except Exception as e:
-                            #print(e)
-                            pass
-                        try:                    
-                            item['product_url']=data['items']['pricing'][0]['link']
-                        except Exception as e:
-                            #print(e)
-                            pass
-                        try:                    
-                            item['image']=data['items']['images'][0]
-                        except Exception as e:
-                            #print(e)
-                            pass
-                        self.product_list.append(item)
-                else:
-                    query_url=self.url+endpoints[3]+'?keyword='+self.query+'&api_key='+self.keys['primary']
-                    r=requests.get(query_url,headers=self.headers)
-                    #print(r.status_code)
-                    data=r.json()
-                    if(data['status']==404):
-                        self.product_list.append({})
-                        return
+            # if(ql==10) and (any(char.isdigit() for char in self.query)==True):#there is a chance it is an ASIN
+            #     regex=r'([A-Z0-9]{10})'
+            #     match=re.match(regex,self.query)
+            #     if(match):
+            #         api=AzProductInformation.AzProductInformation(self.query)                
+            #         prodSearch=api.product_list[0]
+            #         if not(prodSearch['model_no']==None):
+            #             mpn=prodSearch['model_no']
+            #             query_url=self.url+endpoints[3]+'?keyword='+mpn+'&mpn='+mpn+'&api_key='+self.keys['primary']
+            #             r=requests.get(query_url,headers=self.headers)
+            #             data=r.json()
+            #             #print(r.status_code)
+            #             if(data['status']==404):
+            #                 self.product_list.append({})
+            #                 return
+            #             item = {'asinid': data['items']['upc'],
+            #                 'title': data['items']['title'],
+            #                 'rank': '',
+            #                 'package_quantity': '1',
+            #                 'retailer': data['items']['brand'],
+            #                 'image': '',
+            #                 'description':data['items']['description'],
+            #                 'price': data['items']['lowest_pricing'],
+            #                 'url': '',
+            #                 'height': data['items']['dimension'],
+            #                 'width':data['items']['dimension'],
+            #                 'length':data['items']['dimension'],
+            #                 'weight':data['items']['weight'],
+            #                 'model_no':data['items']['mpn'],
+            #                 'source':'',
+            #                 'product_url':''  
+            #             }
+            #             try:                    
+            #                 item['source']=data['items']['pricing'][0]['seller']
+            #             except Exception as e:
+            #                 #print(e)
+            #                 pass
+            #             try:                    
+            #                 item['product_url']=data['items']['pricing'][0]['link']
+            #             except Exception as e:
+            #                 #print(e)
+            #                 pass
+            #             try:                    
+            #                 item['image']=data['items']['images'][0]
+            #             except Exception as e:
+            #                 #print(e)
+            #                 pass
+            #             self.product_list.append(item)
+            #     else:
+            #         query_url=self.url+endpoints[3]+'?keyword='+self.query+'&api_key='+self.keys['primary']
+            #         r=requests.get(query_url,headers=self.headers)
+            #         #print(r.status_code)
+            #         data=r.json()
+            #         if(data['status']==404):
+            #             self.product_list.append({})
+            #             return
                     
-                    item = {'asinid': data['items']['upc'],
-                        'title': data['items']['title'],
-                        'rank': '',
-                        'package_quantity': '1',
-                        'retailer': data['items']['brand'],
-                        'image': '',
-                        'description':data['items']['description'],
-                        'price': data['items']['lowest_pricing'],
-                        'url': '',
-                        'height': data['items']['dimension'],
-                        'width':data['items']['dimension'],
-                        'length':data['items']['dimension'],
-                        'weight':data['items']['weight'],
-                        'model_no':data['items']['mpn'],
-                        'source':'' ,
-                        'product_url':''  
-                    }
-                    try:                    
-                        item['source']=data['items']['pricing'][0]['seller']
-                    except Exception as e:
-                        #print(e)
-                        pass
-                    try:                    
-                        item['product_url']=data['items']['pricing'][0]['link']
-                    except Exception as e:
-                        #print(e)
-                        pass
-                    try:                    
-                        item['image']=data['items']['images'][0]
-                    except Exception as e:
-                        #print(e)
-                        pass
-                    self.product_list.append(item)
+            #         item = {'asinid': data['items']['upc'],
+            #             'title': data['items']['title'],
+            #             'rank': '',
+            #             'package_quantity': '1',
+            #             'retailer': data['items']['brand'],
+            #             'image': '',
+            #             'description':data['items']['description'],
+            #             'price': data['items']['lowest_pricing'],
+            #             'url': '',
+            #             'height': data['items']['dimension'],
+            #             'width':data['items']['dimension'],
+            #             'length':data['items']['dimension'],
+            #             'weight':data['items']['weight'],
+            #             'model_no':data['items']['mpn'],
+            #             'source':'' ,
+            #             'product_url':''  
+            #         }
+            #         try:                    
+            #             item['source']=data['items']['pricing'][0]['seller']
+            #         except Exception as e:
+            #             #print(e)
+            #             pass
+            #         try:                    
+            #             item['product_url']=data['items']['pricing'][0]['link']
+            #         except Exception as e:
+            #             #print(e)
+            #             pass
+            #         try:                    
+            #             item['image']=data['items']['images'][0]
+            #         except Exception as e:
+            #             #print(e)
+            #             pass
+            #         self.product_list.append(item)
             else:
                 if(self.query.find(' ')==-1):
                     query_url=self.url+endpoints[3]+'?keyword='+self.query+'&mpn='+self.query+'&api_key='+self.keys['primary']
@@ -417,17 +396,10 @@ class ProductDataAPI(object):
                         return
                     item = {'asinid': data['items']['upc'],
                         'title': data['items']['title'],
-                        'rank': '',
-                        'package_quantity': '1',
                         'retailer': data['items']['brand'],
                         'image': '',
                         'description':data['items']['description'],
                         'price': data['items']['lowest_pricing'],
-                        'url': '',
-                        'height': data['items']['dimension'],
-                        'width':data['items']['dimension'],
-                        'length':data['items']['dimension'],
-                        'weight':data['items']['weight'],
                         'model_no':data['items']['mpn'],
                         'source':'' ,
                         'product_url':''  
@@ -457,17 +429,10 @@ class ProductDataAPI(object):
                     return
                 item = {'asinid': data['items']['upc'],
                     'title': data['items']['title'],
-                    'rank': '',
-                    'package_quantity': '1',
                     'retailer': data['items']['brand'],
                     'image': '',
                     'description':data['items']['description'],
                     'price': data['items']['lowest_pricing'],
-                    'url': '',
-                    'height': data['items']['dimension'],
-                    'width':data['items']['dimension'],
-                    'length':data['items']['dimension'],
-                    'weight':data['items']['weight'],
                     'model_no':data['items']['mpn'],
                     'source':'' ,
                     'product_url':''  

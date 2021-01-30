@@ -171,24 +171,18 @@ class SellerChamp(object):
                 data=r.content
                 data=json.loads(data)
                 data=data['product']
+                print(data)
                 item = {
                     'asinid': data['upc'],
                     'title': data['title'],
-                    'rank': '',
-                    'package_quantity': '1',
                     'retailer': data['brand'],
                     'image': '',
                     'description':data['description'],
                     'features':data['features'],
                     'price': data['retail_price'],
-                    'url': '',
-                    'height': data['item_dimensions']['height'],
-                    'width':data['item_dimensions']['width'],
-                    'length':data['item_dimensions']['length'],
-                    'weight':data['weight_in_pounds'],
                     'model_no':data['mpn'],
                     'source':'Seller Champ',
-                    'product_url':''  
+                    'product_url':'http://www.amazon.com/dp/{}'.format(data['asin'])  
                 }
                 if(tp=='sky'):
                     w=self.query
@@ -531,18 +525,10 @@ class SellerChampV3(object):
                 item = {
                     'asinid': data['upc'],
                     'title': data['title'],
-                    'rank': '',
-                    'package_quantity': '1',
                     'retailer': data['brand'],
-                    'image': '',
                     'description':data['description'],
                     'features':data['features'],
                     'price': data['retail_price'],
-                    'url': '',
-                    'height': data['item_dimensions']['height'],
-                    'width':data['item_dimensions']['width'],
-                    'length':data['item_dimensions']['length'],
-                    'weight':data['weight_in_pounds'],
                     'model_no':data['mpn'],
                     'source':'Seller Champ',
                     'product_url':''  
@@ -573,6 +559,6 @@ class SellerChampV3(object):
 def main():
     query=sys.argv[1]
     s=SellerChamp(query)
-    print(json.dumps(s.product_list))
+    # print(json.dumps(s.product_list))
 if __name__=='__main__':
     main()

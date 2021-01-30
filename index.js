@@ -12,7 +12,12 @@ app.use(cors());
 
 const root = require('path').join(__dirname, 'client', 'build')
 app.use(express.static(root));
-app.get("/", (req, res) => {
+
+app.use('/api', function (req, res, next) {
+  next();
+});
+
+app.get("*", (req, res) => {
     res.sendFile('index.html', { root });
 })
 

@@ -2,9 +2,10 @@ from mws import mws  # https://github.com/czpython/python-amazon-mws
 import dpath  # https://github.com/akesterson/dpath-python
 from pprint import pprint  # Needed for printing responses, can be deleted.
 import dpath.util
+import requests
 
 
-class AzProductInformation(object):
+class AzProductInformationOld(object):
     def __init__(self, query):
         self.access_key = 'AKIAIKLWKP5M7YJS7NQA'
         self.secret_key = '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'
@@ -173,9 +174,118 @@ class AzProductInformation(object):
             print(e)
             self.product_list.append({})
 
+
+class AzProductInformation(object):
+    def __init__(self, query):
+        
+        self.upcToAsinURL="https://amazon-price1.p.rapidapi.com/upcToAsin"
+        self.headers = {
+            'x-rapidapi-key': "3edae6ad4emsh2286662ae9bcb68p1bb68djsn63c5cf6f2cc6",
+            'x-rapidapi-host': "amazon-price1.p.rapidapi.com"
+        }
+        self.searchUrl = "https://amazon-price1.p.rapidapi.com/search"
+        self.eanToAsinURL = "https://amazon-price1.p.rapidapi.com/eanToAsin"
+
+        self.product_list = []
+        # if(query[len(query)-1]==' ') or (query[-1]==' '):
+        #     query=query[:-1]
+        for i in range(len(query)):
+            if(query[0]==' '):
+                query=query[1:]
+            else:
+                break
+        for i in range(len(query)-1,0,-1):
+            if(query[len(query)-1]==' '):
+                query=query[:-1]
+            else:
+                break
+        self.query = query
+        # self.getProductList()
+        
+    def convertUpcToAsin(self):
+        querystring = {"upc":self.query,"marketplace":"US"}
+        response = requests.get(self.upcToAsinURL, headers=self.headers, params=querystring)
+        data=response.json()
+        return data
+    
+    def convertEANToAsin(self):
+        querystring = {"ean":self.query,"marketplace":"US"}
+        response = requests.get(self.eanToAsinURL, headers=self.headers, params=querystring)
+        data=response.json()
+        return data
+        
+    def __clearTitle(self,title):
+        title=title.encode('utf-8')
+        title=title.decode()
+        arr=['%','\\','/','\'','$','^','@']
+        for i in range(len(arr)):
+            title=title.replace(arr[i],'')
+        return title
+    def getProductList(self):
+        querystring = {"keywords":self.query,"marketplace":"US"}
+        response = requests.get(self.searchUrl, headers=self.headers, params=querystring)
+        # print(len(response.json()))
+
+        prod = response.json()
+        if type(prod) is not list:
+            prod = [prod]
+
+        
+
+        for p in prod:
+            
+            try:
+                ASIN=p['ASIN']
+                product_url = p['detailPageURL']
+            except KeyError as e:
+                print(e)
+                ASIN = None
+            try:
+                model_no=ASIN
+            except KeyError as e:
+                print(e)
+                model_no=ASIN
+            try:
+                product_title = p['title']
+                product_title=self.__clearTitle(product_title)
+            except KeyError as e:
+                print(e)
+                product_title = None
+
+            
+
+            try:
+                product_image = p['imageUrl']
+            except KeyError as e:
+                print(e)
+                product_image = None
+
+            try:
+                price = p['price']
+                if(price):
+                    price=price.replace('$','')
+            except KeyError as e:
+                print(e)
+                price = None
+            
+            # print('sa')
+            
+            item = {'asinid': ASIN,
+                'title': product_title,
+                'image': product_image,
+                'price': price,
+                'url': product_url,
+                'model_no':model_no 
+            }
+            if not(price==None):                       
+                self.product_list.append(item)
+
+
+
+    
 # print('*' * 80)
 # print('Search Term: x00192KM3T')
-# AmazonAPI = AzProductInformation('x00192KM3T')
+# AmazonAPI = AzProductInformation('047875881525')
 # pprint(AmazonAPI.product_list)
 
 # print('*' * 80)

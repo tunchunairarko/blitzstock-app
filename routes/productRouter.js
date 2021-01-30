@@ -150,15 +150,16 @@ router.post("/productlist",  async (req, res) => {
         
         if (isAsin(query)) {
             // console.log("gaitai")
-            let dir = path.join(__dirname, '../python');
+            // let dir = path.join(__dirname, '../python');
             // console.log(dir);
             // console.log(process.env.PYTHON_PATH);
+            queryType="ASIN"
             let options = {
                 mode: 'json',
                 pythonPath: process.env.PYTHON_PATH,
                 pythonOptions: ['-u'], // get print results in real-time 
                 scriptPath: path.join(__dirname, '../python'), //If you are having python_test.py script in same folder, then it's optional. 
-                args: [query, marketplaceString] //An argument which can be accessed in the script using sys.argv[1] 
+                args: [query, queryType, marketplaceString] //An argument which can be accessed in the script using sys.argv[1] 
             };
             PythonShell.run('apiController.py', options, function (err, result) {
                 if (err) throw err;
@@ -168,15 +169,16 @@ router.post("/productlist",  async (req, res) => {
 
         }
         else if(isUPC(query)){
-            let dir = path.join(__dirname, '../python');
+            // let dir = path.join(__dirname, '../python');
             // console.log(dir);
             // console.log(process.env.PYTHON_PATH);
+            queryType="UPC"
             let options = {
                 mode: 'json',
                 pythonPath: process.env.PYTHON_PATH,
                 pythonOptions: ['-u'], // get print results in real-time 
                 scriptPath: path.join(__dirname, '../python'), //If you are having python_test.py script in same folder, then it's optional. 
-                args: [query, marketplaceString] //An argument which can be accessed in the script using sys.argv[1] 
+                args: [query, queryType, marketplaceString] //An argument which can be accessed in the script using sys.argv[1] 
             };
             PythonShell.run('apiController.py', options, function (err, result) {
                 if (err) throw err;
