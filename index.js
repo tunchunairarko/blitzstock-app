@@ -10,17 +10,17 @@ app.use(express.json());
 app.use(cors());
 // app.use(express.static("client/build"))
 
-const root = require('path').join(__dirname)
+const root = require('path').join(__dirname, 'client', 'build')
 app.use(express.static(root));
 
-// app.use("*", function (req, res) {
-//   res.sendFile('index.html', { root });
-// })
-
-app.all('/api', function (req, res, next) {
-  console.log('Accessing the secret section ...')
-  next() // pass control to the next handler
+app.use("*", function (req, res) {
+  res.sendFile('index.html', { root });
 })
+
+// app.all('/api', function (req, res, next) {
+//   console.log('Accessing the secret section ...')
+//   next() // pass control to the next handler
+// })
 app.use(helmet());
 
 // set up mongoose
