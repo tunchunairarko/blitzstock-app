@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 // app.use(express.static("client/build"))
 
-const root = require('path').join(__dirname, 'client', 'build')
+const root = require('path').join(__dirname)
 app.use(express.static(root));
 
 // app.use("*", function (req, res) {
