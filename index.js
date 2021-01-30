@@ -13,7 +13,7 @@ app.use(cors());
 const root = require('path').join(__dirname, 'client', 'build')
 // app.use(express.static(root));
 
-app.use("/\/((?!api).)*/", function (req, res) {
+app.use("*", function (req, res) {
   res.sendFile('index.html', { root });
 })
 
