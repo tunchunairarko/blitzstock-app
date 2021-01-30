@@ -15,12 +15,14 @@ app.use(express.static(root));
 
 
 
+
+app.get("*", function (req, res) {
+  res.sendFile('index.html', { root });
+})
+
 app.all('/api', function (req, res, next) {
   console.log('Accessing the secret section ...')
   next() // pass control to the next handler
-})
-app.get("/\/((?!api).)*/", function (req, res) {
-  res.sendFile('index.html', { root });
 })
 
 app.use(helmet());
