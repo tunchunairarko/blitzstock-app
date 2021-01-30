@@ -5,25 +5,6 @@ require("dotenv").config();
 const helmet = require("helmet");
 // set up express
 
-const app = express();
-app.use(express.json());
-app.use(cors());
-// app.use(express.static("client/build"))
-
-const root = require('path').join(__dirname, 'client', 'build')
-app.use(express.static(root));
-
-app.use("*", function (req, res) {
-  res.sendFile('index.html', { root });
-})
-
-// app.all('/api', function (req, res, next) {
-//   console.log('Accessing the secret section ...')
-//   next() // pass control to the next handler
-// })
-app.use(helmet());
-
-// set up mongoose
 mongoose.connect(
   process.env.MONGODB_CONNECTION_STRING,
   {
@@ -38,10 +19,37 @@ mongoose.connect(
 );
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
+const app = express();
+app.use(express.json());
+app.use(cors());
+// app.use(express.static("client/build"))
+
+const root = require('path').join(__dirname, 'client', 'build')
+app.use(express.static(root));
+
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  if (req.method === 'OPTIONS') {
+      res.header("Access-Control-Allow-Methods", "PUT, POST, DELETE, GET");
+      return res.status(200).json({});
+  }
+  next();
+});
 
 // set up routes
 app.use("/api/products", require("./routes/productRouter"));
 app.use("/api/users", require("./routes/userRouter"));
+
+app.get("*", function (req, res) {
+  res.sendFile('index.html', { root });
+})
+
+app.use(helmet());
+
+app.listen(PORT, () => console.log(`The server has started on port: ${PORT}`));
+
+
 
 
