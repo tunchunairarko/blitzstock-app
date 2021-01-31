@@ -140,7 +140,10 @@ body{
         color:#7f8c8d;
     }
     .dashboard-card-subtitle{
-        font-size:2.5em!important;
+        font-size:1.5em!important;
+    }
+    .dashboard-card-title{
+        font-size:0.85em!important;
     }
     .dashboard-card-img{
         max-width: 60%!important;;
@@ -148,7 +151,7 @@ body{
 }
 @media (min-width: 319px) and (max-width: 1280px) {
     .dashboard-card-title{
-        font-size:0.83em!important;
+        font-size:0.85em!important;
     }
     .dashboard-card-subtitle{
         font-size:1.2em!important;

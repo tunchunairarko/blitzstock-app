@@ -1,4 +1,4 @@
-import React, { Fragment,useState,useContext } from 'react'
+import React, { Fragment,useState,useContext,useEffect } from 'react'
 import {  Form,  Row, Col, Button,  Card, ButtonGroup, Dropdown } from 'react-bootstrap'
 import { FaBroom, FaDumpsterFire, FaUpload } from 'react-icons/fa';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -6,10 +6,10 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import "../../../components/assets/style.css";
 import Axios from "axios";
 import UserContext from "../../../context/UserContext";
-import ErrorNotice from "../../misc/ErrorNotice";
-import SuccessNotice from "../../misc/SuccessNotice";
+// import ErrorNotice from "../../misc/ErrorNotice";
+// import SuccessNotice from "../../misc/SuccessNotice";
 import { useCookies } from "react-cookie";
-
+import { useAlert } from 'react-alert'
 
 export default function DownloadedProductData({title,upc,description,retail,image,setTitle,setRetail,setUpc,setDescription,setImage}) {
     const { userData } = useContext(UserContext);
@@ -19,6 +19,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
     const [quantity, setQuantity]=useState(1);
     const [discount, setDiscount]=useState(50);
     const [condition,setCondition]=useState('New');
+    const alert = useAlert()
 
     const handleSelect=(e)=>{
         console.log(e);
@@ -90,16 +91,28 @@ export default function DownloadedProductData({title,upc,description,retail,imag
             // err.response.data.msg && setError(err.response.data.msg);
         }
     }
+    useEffect(()=>{
+        if(error){
+            alert.error(<div style={{ 'font-size': '0.70em' }}>{error}</div>)
+            setError(undefined)
+        }
+    },[error])
 
+    useEffect(()=>{
+        if(successNotice){
+            alert.success(<div style={{ 'font-size': '0.70em' }}>{successNotice}</div>)
+        setSuccessNotice(undefined)
+        }
+    },[successNotice])
 
     return (
         <Fragment>
-            {error && (
+            {/* {error && (
                         <ErrorNotice message={error} clearError={() => setError(undefined)} />
                     )}
             {successNotice && (
                         <SuccessNotice message={successNotice} clearSuccessNotice={() => setSuccessNotice(undefined)} />
-                    )}
+                    )} */}
             <Card className="box-design mt-3">
                 <Row className="ml-3 pr-3 mt-3">
                     <Col xs={12} sm={4} >

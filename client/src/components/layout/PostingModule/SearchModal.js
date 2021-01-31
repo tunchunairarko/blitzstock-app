@@ -5,10 +5,9 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import Loader from 'react-loader-spinner';
 import "../../../components/assets/style.css"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
-import { useWillUnmount } from 'react-hooks-lib';
-
+import { useAlert } from 'react-alert';
 const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketplace }) => {
-
+    const alert = useAlert()
     const [userChosenProduct, setUserChosenProduct] = useState({});
     const [loaderVisible, setLoaderVisible] = useState(true);
     //popup theke data niye ekhon form e boshaite hobe
@@ -43,11 +42,17 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                                     body
                                 )
                                 
-                                setCurrentProductData({
-                                    productList: productRes.data,
-                                });
-                                // checkIfProductListIsOne(productRes.data)
-                                setLoaderVisible(false);
+                                if(productRes.data && productRes.data.length>0){
+                                    setCurrentProductData({
+                                        productList: productRes.data,
+                                    });
+                                    // checkIfProductListIsOne(productRes.data)
+                                    setLoaderVisible(false);
+                                }
+                                else{
+                                    handleClose(currentProductData,loaderVisible)
+                                    alert.error(<div style={{ 'font-size': '0.70em' }}>Error retrieving product</div>)
+                                }
                             }
         
                         }
@@ -162,7 +167,7 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                             width={100}
                             visible={loaderVisible} />
                         </Row>                        
-        
+
                         )}
                 </Modal.Body>
                 <Modal.Footer>

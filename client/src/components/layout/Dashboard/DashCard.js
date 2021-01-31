@@ -26,9 +26,9 @@ export default function DashCard({title, value, image}) {
                     </Col>
                 </Row>
             </Card.Body>
-            <Card.Footer className="dashboard-card-footer">
+            {/* <Card.Footer className="dashboard-card-footer">
                 <small className="text-muted"><FaClock /> updated 5 minutes ago. </small>
-            </Card.Footer>
+            </Card.Footer> */}
             
           </Card>
         </Fragment>

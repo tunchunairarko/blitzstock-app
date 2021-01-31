@@ -6,7 +6,6 @@ import { FaSearch } from 'react-icons/fa';
 import { Card } from 'react-bootstrap';
 import SearchModal from './SearchModal';
 
-
 export default function SearchModule({setTitle,setRetail,setUpc,setDescription,setImage}) {
     let [show, setShow] = useState(false);
     const [marketPlace] = useState({

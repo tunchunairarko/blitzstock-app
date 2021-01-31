@@ -187,7 +187,7 @@ router.post("/productlist",  async (req, res) => {
             });
         }
         else {
-            res.send('Error')
+            res.send({})
         }
     } catch (err) {
         dumpError(err)
