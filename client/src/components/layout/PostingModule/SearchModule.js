@@ -8,7 +8,7 @@ import SearchModal from './SearchModal';
 
 
 export default function SearchModule({setTitle,setRetail,setUpc,setDescription,setImage}) {
-    const [show, setShow] = useState(false);
+    let [show, setShow] = useState(false);
     const [marketPlace] = useState({
         singleItem:true,
         getList:false,
@@ -18,16 +18,17 @@ export default function SearchModule({setTitle,setRetail,setUpc,setDescription,s
         // console.log(marketPlace)
         
         marketPlace[key]=!marketPlace[key];
-        console.log(marketPlace)
+        // console.log(marketPlace)
     }
 
     const [searchQuery, setSearchQuery] = useState("");
     
     const handleClose = (currentProductData,loaderVisible) => {
-        loaderVisible=true;
         currentProductData.productList=undefined;
         loaderVisible=true;
-        setShow(false);
+        if(loaderVisible==true){
+            setShow(false);
+        }
     };
     const handleShow = () => {setShow(true)};
 
@@ -40,6 +41,7 @@ export default function SearchModule({setTitle,setRetail,setUpc,setDescription,s
     };
     
     const setUserChosenProductData = (product) =>{
+        // console.log("papi")
         // console.log(product)
         setTitle(product.title)
         setRetail(product.price)
@@ -60,6 +62,7 @@ export default function SearchModule({setTitle,setRetail,setUpc,setDescription,s
                                     type="text"
                                     placeholder="Search here.."
                                     onInput={e => setSearchQuery(e.target.value)}
+                                    onChange={e => setSearchQuery(e.target.value)}
                                 />
                                 <InputGroup.Append>
                                     <Button variant="primary" onClick={() => handleSearchQuery(searchQuery)}>

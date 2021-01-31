@@ -13,7 +13,7 @@ import { useCookies } from "react-cookie";
 
 export default function DownloadedProductData({title,upc,description,retail,image,setTitle,setRetail,setUpc,setDescription,setImage}) {
     const { userData } = useContext(UserContext);
-    const [cookies, setCookie] = useCookies(["user"]);
+    const [cookies] = useCookies(["user"]);
     const [error, setError] = useState();
     const [successNotice, setSuccessNotice] = useState();
     const [quantity, setQuantity]=useState(1);

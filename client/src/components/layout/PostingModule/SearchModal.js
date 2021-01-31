@@ -5,6 +5,7 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import Loader from 'react-loader-spinner';
 import "../../../components/assets/style.css"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import { useWillUnmount } from 'react-hooks-lib';
 
 const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketplace }) => {
 
@@ -14,60 +15,87 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
     const [currentProductData, setCurrentProductData] = useState({
         productList: undefined,
     });
-    // useDidMount(()=>{
-    //     // setCurrentProductData({productList:undefined});
-    //     setLoaderVisible(true);
-    //     console.log(loaderVisible);
-    // })
+    
     useEffect(() => {
         const getProductList = async () => {            
-            if(!currentProductData.productList){
-                setLoaderVisible(true)
-                if (searchQuery) {
-                    console.log(searchQuery)
-                    let token = localStorage.getItem("auth-token");
-                    if (token == null) {
-                        localStorage.setItem("auth-token", "");
-                        token = "";
-                    }
-                    else {
-                        const tokenResponse = await Axios.post(
-                            "/api/users/tokenIsValid",
-                            null,
-                            { headers: { "x-auth-token": token } }
-                        );
-                        // console.log(searchQuery)
-                        
-                        if (tokenResponse.data) {
-                            const body = { searchQuery, marketplace };
-                            const productRes = await Axios.post(
-                                "/api/products/productlist", 
-                                body
-                            );
-                            setCurrentProductData({
-                                productList: productRes.data,
-                            });
-                            setLoaderVisible(false);
+            if(show===true){
+                if(!currentProductData.productList){
+                    setLoaderVisible(true)
+                    if (searchQuery) {
+                        console.log(searchQuery)
+                        let token = localStorage.getItem("auth-token");
+                        if (token == null) {
+                            localStorage.setItem("auth-token", "");
+                            token = "";
                         }
-    
+                        else {
+                            const tokenResponse = await Axios.post(
+                                "/api/users/tokenIsValid",
+                                null,
+                                { headers: { "x-auth-token": token } }
+                            );
+                            // console.log(searchQuery)
+                            
+                            if (tokenResponse.data) {
+                                const body = { searchQuery, marketplace };
+                                const productRes = await Axios.post(
+                                    "/api/products/productlist", 
+                                    body
+                                )
+                                
+                                setCurrentProductData({
+                                    productList: productRes.data,
+                                });
+                                // checkIfProductListIsOne(productRes.data)
+                                setLoaderVisible(false);
+                            }
+        
+                        }
                     }
                 }
             }
-        }
+        }        
         getProductList();
-    }, [show])
-
+    },[show])
+    useEffect(() =>{
+        const nandakore = async () => {
+            
+            if(currentProductData.productList){
+                if(currentProductData.productList.length==1){
+                    onProductChosen(currentProductData.productList[0])
+                    setCurrentProductData({
+                        productList: undefined,
+                    });
+                    handleClose(currentProductData,loaderVisible);
+                }
+            }
+            
+        }
+        nandakore();
+    },[currentProductData])
+    
+    // const checkIfProductListIsOne = (productList)=>{
+        
+    //     if(productList){
+    //         if(productList.length===1){
+    //             // console.log(productList[0])
+    //             onProductChosen(productList[0])
+    //             handleClose(currentProductData,loaderVisible);
+    //         }
+    //     }
+    // }
+    
     const chooseProduct = async (e) => {
         e.preventDefault();
         if (userChosenProduct) {
             onProductChosen(userChosenProduct)
-            // setCurrentProductData(undefined)
-            // setLoaderVisible(true);
-            // console.log("Ku")
-            // console.log(currentProductData)
+            setCurrentProductData({
+                productList: undefined,
+            });
             handleClose(currentProductData,loaderVisible);
         }
     }
+    
 
     const selectRow = {
         mode: 'radio',
@@ -141,7 +169,7 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                     <Button variant="secondary" onClick={(e)=>handleClose(currentProductData,loaderVisible)}>
                         Close
                     </Button>
-                    <Button variant="primary" type="submit" onClick={chooseProduct}>Choose</Button>
+                    <Button variant="primary" onClick={chooseProduct}>Choose</Button>
                 </Modal.Footer>
             </Modal>
         </Fragment>

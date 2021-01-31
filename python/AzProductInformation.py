@@ -48,7 +48,7 @@ class AzProductInformationOld(object):
             try:
                 asin = dpath.util.get(p, '/ASIN/value')
             except KeyError as e:
-                print(e)
+                #print(e)
                 asin = None
 
             try:
@@ -60,7 +60,7 @@ class AzProductInformationOld(object):
                     price = dpath.util.get(price, '/Price/LandedPrice/Amount/value')
 
             except KeyError as e:
-                print(e)
+                #print(e)
                 price = None
             
             prices_dict[asin] = price
@@ -86,48 +86,48 @@ class AzProductInformationOld(object):
                     ASIN = dpath.util.get(p, '/Identifiers/MarketplaceASIN/ASIN/value')
                     product_url = 'http://www.amazon.com/dp/{}'.format(ASIN)
                 except KeyError as e:
-                    print(e)
+                    #print(e)
                     ASIN = None
                 try:
                     model_no=dpath.util.get(p,'/AttributeSets/ItemAttributes/Model/value')
                 except KeyError as e:
-                    print(e)
+                    #print(e)
                     model_no=None
                 try:
                     product_title = dpath.util.get(p, '/AttributeSets/ItemAttributes/Title/value')
                     product_title=self.__clearTitle(product_title)
                 except KeyError as e:
-                    print(e)
+                    #print(e)
                     product_title = None
 
                 try:
                     product_rank = dpath.util.get(p, '/SalesRankings/SalesRank/[0]/Rank/value')
                 except KeyError as e:
-                    print(e)
+                    #print(e)
                     product_rank = None
 
                 try:
                     package_quantity = dpath.util.get(p, 'AttributeSets/ItemAttributes/PackageQuantity/value')
                 except KeyError as e:
-                    print(e)
+                    #print(e)
                     package_quantity = None
 
                 try:
                     product_brand = dpath.util.get(p, 'AttributeSets/ItemAttributes/Brand/value')
                 except KeyError as e:
-                    print(e)
+                    #print(e)
                     product_brand = None
 
                 try:
                     product_image = dpath.util.get(p, 'AttributeSets/ItemAttributes/SmallImage/URL/value')
                 except KeyError as e:
-                    print(e)
+                    #print(e)
                     product_image = None
 
                 try:
                     price = prices[ASIN]
                 except KeyError as e:
-                    print(e)
+                    #print(e)
                     price = None
                 if(price==None):
                     # print(p)
@@ -135,7 +135,7 @@ class AzProductInformationOld(object):
                         same_price=dpath.util.get(p, 'AttributeSets/ItemAttributes/ListPrice/Amount/value')
                         price=same_price
                     except Exception as e:
-                        print(e)
+                        #print(e)
                         price=None
                 # print('sa')
                 try:
@@ -171,7 +171,7 @@ class AzProductInformationOld(object):
                 if not(price==None):                       
                     self.product_list.append(item)
         except KeyError as e:
-            print(e)
+            #print(e)
             self.product_list.append({})
 
 
@@ -238,18 +238,18 @@ class AzProductInformation(object):
                 ASIN=p['ASIN']
                 product_url = p['detailPageURL']
             except KeyError as e:
-                print(e)
+                #print(e)
                 ASIN = None
             try:
                 model_no=ASIN
             except KeyError as e:
-                print(e)
+                #print(e)
                 model_no=ASIN
             try:
                 product_title = p['title']
                 product_title=self.__clearTitle(product_title)
             except KeyError as e:
-                print(e)
+                #print(e)
                 product_title = None
 
             
@@ -257,7 +257,7 @@ class AzProductInformation(object):
             try:
                 product_image = p['imageUrl']
             except KeyError as e:
-                print(e)
+                #print(e)
                 product_image = None
 
             try:
@@ -265,7 +265,7 @@ class AzProductInformation(object):
                 if(price):
                     price=price.replace('$','')
             except KeyError as e:
-                print(e)
+                #print(e)
                 price = None
             
             # print('sa')

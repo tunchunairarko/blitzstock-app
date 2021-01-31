@@ -171,7 +171,7 @@ class SellerChamp(object):
                 data=r.content
                 data=json.loads(data)
                 data=data['product']
-                print(data)
+                # print(data)
                 item = {
                     'asinid': data['upc'],
                     'title': data['title'],

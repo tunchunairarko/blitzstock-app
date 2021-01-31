@@ -38,11 +38,16 @@ def main():
             print(json.dumps(s.product_list))
         else:
             api=productDataApi.ProductDataAPI(query)                
-            prodDataApi=api.product_list
+            prodDataApiList=api.product_list
             api=AzProductInformation.AzProductInformation(query)
             api.getProductList()
             amzProductList=api.product_list
             productList=[{}]
+            for item in prodDataApiList:
+                productList.append(item)
+            for item in amzProductList:
+                productList.append(item)
+            print(json.dumps(productList))
             
 
 if __name__=='__main__':

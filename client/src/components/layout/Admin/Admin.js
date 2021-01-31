@@ -1,4 +1,4 @@
-import React, { useContext, useState, Fragment, useEffect } from 'react'
+import React, { useState, Fragment} from 'react'
 import PrivateRoute from "../../../router/PrivateRoute";
 import Aside from '../Aside/Aside';
 import 'react-pro-sidebar/dist/css/styles.css';
@@ -6,11 +6,11 @@ import {  FaBars } from 'react-icons/fa';
 import '../../assets/Dashboard.scss';
 import PostingModule from '../PostingModule/postingModule';
 import Dashboard from '../Dashboard/dashboard';
-import { Switch, Route } from "react-router";
+import { Switch } from "react-router";
 
 export default function Admin() {
     
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed] = useState(false);
 
     const [toggled, setToggled] = useState(false);
 

@@ -4,19 +4,18 @@ import {
   ProSidebar,
   Menu,
   MenuItem,
-  SubMenu,
   SidebarHeader,
   SidebarFooter,
   SidebarContent,
 } from 'react-pro-sidebar';
 import { Link, useHistory } from "react-router-dom";
 
-import { FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart, FaSignOutAlt } from 'react-icons/fa';
+import { FaTachometerAlt, FaGem, FaSignOutAlt } from 'react-icons/fa';
 import sidebarBg from '../../assets/bg1.jpg';
 import UserContext from "../../../context/UserContext";
 
 const Aside = ({ collapsed, toggled, handleToggleSidebar }) => {
-  const { userData, setUserData } = useContext(UserContext);
+  const { setUserData } = useContext(UserContext);
   const history = useHistory(); //history is all events that had happened in the url bar
   const logout = () => {
     setUserData({

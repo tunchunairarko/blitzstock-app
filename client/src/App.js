@@ -1,5 +1,5 @@
 import React, {useState, useEffect, Fragment} from 'react'
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch } from "react-router-dom";
 import Axios from "axios";
 import Header from './components/layout/Header/header'
 import Admin from './components/layout/Admin/Admin'
@@ -8,7 +8,6 @@ import Login from './components/auth/login'
 import Register from './components/auth/register'
 import UserContext from "./context/UserContext";
 import { useCookies } from "react-cookie";
-import { useHistory} from "react-router-dom";
 
 import PrivateRoute from "./router/PrivateRoute";
 import PublicRoute from './router/PublicRoute';
@@ -20,7 +19,7 @@ export default function App() {
         user: undefined,
     });
     
-    let history = useHistory();
+    
     
     useEffect(() =>{
         const checkLoggedIn = async (e) => {

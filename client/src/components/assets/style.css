@@ -151,10 +151,14 @@ body{
         font-size:0.83em!important;
     }
     .dashboard-card-subtitle{
-        font-size:1.5em!important;
+        font-size:1.2em!important;
     }
     .dashboard-card-img{
         max-width: 90%!important;;
+    }
+    .dashboard-card-footer{
+        padding-right:10px!important;
+        padding-left:10px!important;
     }
   }
 .moduleHeader{

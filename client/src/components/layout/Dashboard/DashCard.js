@@ -1,7 +1,7 @@
 import React, {Fragment} from 'react'
-import { Nav, NavItem, CardDeck, Navbar, Row, Col, Button, Card, ButtonGroup, Dropdown } from 'react-bootstrap'
+import { Row, Col, Card} from 'react-bootstrap'
 import "../../../components/assets/style.css";
-import { FaClock } from 'react-icons/fa';
+import { FaClock, FaUndo } from 'react-icons/fa';
 
 
 export default function DashCard({title, value, image}) {
@@ -12,7 +12,6 @@ export default function DashCard({title, value, image}) {
                 <Row>
                     <Col className="col-5">
                         <Card.Img
-                        top
                         align="left"
                         src={image}
                         className="dashboard-card-img"                  
@@ -28,7 +27,7 @@ export default function DashCard({title, value, image}) {
                 </Row>
             </Card.Body>
             <Card.Footer className="dashboard-card-footer">
-                <small className="text-muted"><FaClock /> updated 5 minutes ago</small>
+                <small className="text-muted"><FaClock /> updated 5 minutes ago. </small>
             </Card.Footer>
             
           </Card>

@@ -197,8 +197,6 @@ router.post("/productlist",  async (req, res) => {
 
 router.get("/getsku", auth, async (req, res) => {
     var DocCounter = await Products.countDocuments({})
-    // console.log(DocCounter)
-    // var count = DocCounter.count;
     DocCounter++;
     console.log(DocCounter)
     const sku = "BTZ" + DocCounter.toString().padStart(7, "0");
@@ -206,16 +204,24 @@ router.get("/getsku", auth, async (req, res) => {
     res.json({
         sku: sku
     });
-    // Products.countDocuments({}, function (err, count) {
-    //     if(err){
-    //         dumpError(err)
-    //     } 
-    //     console.log(count)
-    //     count++;
-    //     const sku = "BTZ" + count.toString().padStart(7, "0");
-    //     console.log(sku)
-    //     res.json({sku})
-    // })
+    
 })
+
+router.post("/dashboarddata", auth, async (req, res) =>{
+    const { username } = req.body;
+    // console.log(username)
+    const userPostedProductsCount = await UserProducts.countDocuments({username:username})
+    const totPostedProductsCount = await Products.countDocuments({})
+
+    const resData = await UserProducts.aggregate([
+        {$group :{_id:"$username","count":{$sum:1}}},
+        {$sort:{"count":-1}},
+        {$limit : 5}]
+    )
+    const bestPoster = resData[0]._id
+    const bestPosterCount=resData[0].count
+    res.json({userPostedProductsCount,totPostedProductsCount,bestPoster,bestPosterCount})
+})
+
 
 module.exports = router;

@@ -5,7 +5,7 @@ import UserContext from "../../context/UserContext";
 import { useCookies } from "react-cookie";
 
 export default function AuthOptions() {
-    const [cookies, setCookie] = useCookies(["user"]);
+    const [setCookie] = useCookies(["user"]);
     const { userData, setUserData } = useContext(UserContext);
     const history = useHistory(); //history is all events that had happened in the url bar
     
