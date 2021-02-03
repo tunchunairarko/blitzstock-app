@@ -6,7 +6,8 @@ import Loader from 'react-loader-spinner';
 import "../../../components/assets/style.css"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useAlert } from 'react-alert';
-const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketplace }) => {
+// const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketplace }) => {
+const SearchModal = ({ show, handleClose, searchQuery, onProductChosen }) => {
     const alert = useAlert()
     const [userChosenProduct, setUserChosenProduct] = useState({});
     const [loaderVisible, setLoaderVisible] = useState(true);
@@ -21,7 +22,7 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                 if(!currentProductData.productList){
                     setLoaderVisible(true)
                     if (searchQuery) {
-                        console.log(searchQuery)
+                        // console.log(searchQuery)
                         let token = localStorage.getItem("auth-token");
                         if (token == null) {
                             localStorage.setItem("auth-token", "");
@@ -36,20 +37,28 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                             // console.log(searchQuery)
                             
                             if (tokenResponse.data) {
-                                const body = { searchQuery, marketplace };
-                                const productRes = await Axios.post(
-                                    "/api/products/productlist", 
-                                    body
-                                )
-                                
-                                if(productRes.data && productRes.data.length>0){
-                                    setCurrentProductData({
-                                        productList: productRes.data,
-                                    });
-                                    // checkIfProductListIsOne(productRes.data)
-                                    setLoaderVisible(false);
-                                }
-                                else{
+                                // const body = { searchQuery, marketplace };
+                                const body = { searchQuery };
+                                try{
+                                    const productRes = await Axios.post(
+                                        "/api/products/productlist", 
+                                        body
+                                    )
+                                    
+                                    if(productRes.data && productRes.data.length>0){
+                                        setCurrentProductData({
+                                            productList: productRes.data,
+                                        });
+                                        // console.log(productRes.data)
+                                        // checkIfProductListIsOne(productRes.data)
+                                        setLoaderVisible(false);
+                                    }
+                                    else{
+                                        handleClose(currentProductData,loaderVisible)
+                                        alert.error(<div style={{ 'font-size': '0.70em' }}>Error retrieving product</div>)
+                                    }
+                                }catch(error){
+                                    console.log(error)
                                     handleClose(currentProductData,loaderVisible)
                                     alert.error(<div style={{ 'font-size': '0.70em' }}>Error retrieving product</div>)
                                 }
@@ -90,14 +99,35 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
     //     }
     // }
     
+    const finishAll = (data) =>{
+        console.log(data)
+        onProductChosen(data[0])
+        setCurrentProductData({
+            productList: undefined,
+        });
+        handleClose(currentProductData,loaderVisible);
+    }
+
     const chooseProduct = async (e) => {
         e.preventDefault();
         if (userChosenProduct) {
-            onProductChosen(userChosenProduct)
-            setCurrentProductData({
-                productList: undefined,
-            });
-            handleClose(currentProductData,loaderVisible);
+            const searchQuery = userChosenProduct['asinid'];
+            const body = { searchQuery };
+            try{
+                const productRes = await Axios.post(
+                    "/api/products/productlist", 
+                    body
+                ).then((result)=> finishAll(result.data))
+                
+            }catch(error){
+                console.log(error)
+                onProductChosen(userChosenProduct)
+                setCurrentProductData({
+                    productList: undefined,
+                });
+                handleClose(currentProductData,loaderVisible);
+            }
+            
         }
     }
     
@@ -148,7 +178,7 @@ const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketpl
                 <Modal.Body>
                     {currentProductData.productList ? (
                         <BootstrapTable
-                        keyField='asinid'
+                        keyField="key"
                         data={ currentProductData.productList }
                         columns={ columns }
                         selectRow={ selectRow }

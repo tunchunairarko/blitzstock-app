@@ -143,7 +143,7 @@ router.post("/productlist",  async (req, res) => {
             res.status(400).json({error:"Missing query data"})
         }
         // console.log(req.body)
-        marketplaceString = JSON.stringify(marketplace)
+        // marketplaceString = JSON.stringify(marketplace)
         var query = searchQuery.toString();
         console.log(query)
         // console.log("12")
@@ -159,7 +159,7 @@ router.post("/productlist",  async (req, res) => {
                 pythonPath: process.env.PYTHON_PATH,
                 pythonOptions: ['-u'], // get print results in real-time 
                 scriptPath: path.join(__dirname, '../python'), //If you are having python_test.py script in same folder, then it's optional. 
-                args: [query, queryType, marketplaceString] //An argument which can be accessed in the script using sys.argv[1] 
+                args: [query, queryType] //An argument which can be accessed in the script using sys.argv[1] 
             };
             PythonShell.run('apiController.py', options, function (err, result) {
                 if (err) throw err;
@@ -178,16 +178,29 @@ router.post("/productlist",  async (req, res) => {
                 pythonPath: process.env.PYTHON_PATH,
                 pythonOptions: ['-u'], // get print results in real-time 
                 scriptPath: path.join(__dirname, '../python'), //If you are having python_test.py script in same folder, then it's optional. 
-                args: [query, queryType, marketplaceString] //An argument which can be accessed in the script using sys.argv[1] 
+                args: [query, queryType] //An argument which can be accessed in the script using sys.argv[1] 
             };
             PythonShell.run('apiController.py', options, function (err, result) {
                 if (err) throw err;
-                // console.log('result: ', result); 
+                console.log('result: ', result); 
                 res.send(result[0])
             });
         }
+        
         else {
-            res.send({})
+            queryType="KEYWORD"
+            let options = {
+                mode: 'json',
+                pythonPath: process.env.PYTHON_PATH,
+                pythonOptions: ['-u'], // get print results in real-time 
+                scriptPath: path.join(__dirname, '../python'), //If you are having python_test.py script in same folder, then it's optional. 
+                args: [query, queryType] //An argument which can be accessed in the script using sys.argv[1] 
+            };
+            PythonShell.run('apiController.py', options, function (err, result) {
+                if (err) throw err;
+                console.log('result: ', result); 
+                res.send(result[0])
+            });
         }
     } catch (err) {
         dumpError(err)

@@ -8,17 +8,17 @@ import SearchModal from './SearchModal';
 
 export default function SearchModule({setTitle,setRetail,setUpc,setDescription,setImage}) {
     let [show, setShow] = useState(false);
-    const [marketPlace] = useState({
-        singleItem:true,
-        getList:false,
-    })
+    // const [marketPlace] = useState({
+    //     singleItem:true,
+    //     getList:false,
+    // })
 
-    const handleCheckBoxChange = (key) =>{
-        // console.log(marketPlace)
+    // const handleCheckBoxChange = (key) =>{
+    //     // console.log(marketPlace)
         
-        marketPlace[key]=!marketPlace[key];
-        // console.log(marketPlace)
-    }
+    //     marketPlace[key]=!marketPlace[key];
+    //     // console.log(marketPlace)
+    // }
 
     const [searchQuery, setSearchQuery] = useState("");
     
@@ -71,20 +71,21 @@ export default function SearchModule({setTitle,setRetail,setUpc,setDescription,s
                             </InputGroup>
                         </Form.Group>
                     </Form.Row>
-                    <Form.Row className="mt-2 pl-3 pr-3">
+                    {/* <Form.Row className="mt-2 pl-3 pr-3">
                         {['checkbox'].map((type) => (
                             <div key={`inline-${type}`} className="mb-3">
                                 <Form.Check inline label="Get item directly" type={type} id={`inline-${type}-1`} defaultChecked onChange={(e) => handleCheckBoxChange('singleItem')}/>
                                 <Form.Check inline label="Search Product List" type={type} id={`inline-${type}-2`} onChange={(e) => handleCheckBoxChange('getList')}/>
-                                {/* <Form.Check inline label="Amazon MWS" type={type} id={`inline-${type}-1`} disabled onChange={(e) => handleCheckBoxChange('mws')}/>
-                                <Form.Check inline label="Walmart Retail API" type={type} id={`inline-${type}-2`} disabled onChange={(e) => handleCheckBoxChange('walmart')}/> */}
+                                <Form.Check inline label="Amazon MWS" type={type} id={`inline-${type}-1`} disabled onChange={(e) => handleCheckBoxChange('mws')}/>
+                                <Form.Check inline label="Walmart Retail API" type={type} id={`inline-${type}-2`} disabled onChange={(e) => handleCheckBoxChange('walmart')}/> 
 
                             </div>
                         ))}
 
-                    </Form.Row>
+                    </Form.Row> */}
                 </Card>
-                <SearchModal show={show} handleClose={handleClose} searchQuery={searchQuery} onProductChosen={setUserChosenProductData} marketplace={marketPlace}/>
+                {/* <SearchModal show={show} handleClose={handleClose} searchQuery={searchQuery} onProductChosen={setUserChosenProductData} marketplace={marketPlace}/> */}
+                <SearchModal show={show} handleClose={handleClose} searchQuery={searchQuery} onProductChosen={setUserChosenProductData}/>
         </Fragment>
     )
 }
