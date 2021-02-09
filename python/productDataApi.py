@@ -190,9 +190,10 @@ class ProductDataAPI(object):
                 r=requests.get(query_url,headers=self.headers)
                 data=r.json()
                 #print(r.status_code)
-                if(r.status_code==404):
+                if(data['status']==404):
                     self.product_list.append({})
                     return
+                print(data)
                 item = {'asinid': data['items']['upc'],
                     'title': data['items']['title'],
                     'retailer': data['items']['brand'],
@@ -501,7 +502,8 @@ class ProductDataAPI(object):
 
 def main():
     # p=ProductDataUPC('SKY1263')
-    p=ProductDataAPIWithKeyword('x00192KM3T')
-    #print(p.product_list)
+    # p=ProductDataAPIWithKeyword('x00192KM3T')
+    p=ProductDataAPI("081317020593")
+    print(p.product_list)
 if __name__=='__main__':
     main()
