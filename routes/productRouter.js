@@ -21,23 +21,7 @@ function dumpError(err) {
       console.log('dumpError :: argument is not an object');
     }
   }
-// async function getSKU (){
-//     var fucker = await Products.estimatedDocumentCount()
-//     fucker++;
-//     console.log(fucker)
-//     const sku = "BTZ" + fucker.toString().padStart(7, "0");
-//     return sku;
-//     // function(err, docCount) {
-//     //     if (err) { return dumpError(err) } //handle possible errors
-//     //     // console.log("erere")
-//     //     docCount++;
-//     //     console.log(docCount)
-//     //     const sku = "BTZ" + docCount.toString().padStart(7, "0");
-//     //     return sku;
-//     // })
-//     // const docCount = await Products.countDocuments({}).exec();
-    
-// }
+
 function isAsin(strText) {
     
     var asinPattern = new RegExp(/^(B[\dA-Z]{9}|\d{9}(X|\d))$/);
@@ -65,15 +49,7 @@ router.post("/new", auth,  async (req, res) => {
         }
         // console.log(user)
         console.log(productInp)
-        //aage shopify te product pathao
-        //then db te dhukao
-        // const image = "https://cdn.shopify.com/s/files/1/0514/3520/8854/files/surplus-auction.png?v=1609197903"
-        const api_url = "https://d5564278b7264d6ad974c0f10a2603c0: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@blitz-stock.myshopify.com/admin/api/2021-01/products.json"
-
-        // if (productInp.image !== "") {
-        //     image = productInp.image
-        // }
-
+        
 
         var productString = JSON.stringify(productInp)
 
@@ -82,7 +58,7 @@ router.post("/new", auth,  async (req, res) => {
             pythonPath: process.env.PYTHON_PATH,
             pythonOptions: ['-u'], // get print results in real-time 
             scriptPath: path.join(__dirname, '../python'), //If you are having python_test.py script in same folder, then it's optional. 
-            args: [productString, api_url] //An argument which can be accessed in the script using sys.argv[1] 
+            args: [productString] //An argument which can be accessed in the script using sys.argv[1] 
         };
         PythonShell.run('shopifyUpload.py', options, function (err, result) {
             if (err) throw err;

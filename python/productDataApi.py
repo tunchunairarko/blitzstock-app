@@ -1,17 +1,19 @@
 import requests
-import dpath  # https://github.com/akesterson/dpath-python
-from pprint import pprint  # Needed for #printing responses, can be deleted.
 import re
-import AzProductInformation
+from dotenv import load_dotenv
+import os
+
+
 
 class ProductDataUPC(object):
     def __init__(self,query):
+        load_dotenv()
         self.keys={
-            'primary':'aed3a12f05464b8abb54c24d2750e377'
+            'primary':os.getenv('PRODUCT_DATA_API_KEY')
             
         }
         self.headers={
-            'ApiGenius_API_Key': "aed3a12f05464b8abb54c24d2750e377"
+            'ApiGenius_API_Key': os.getenv('PRODUCT_DATA_API_KEY')
         }
         self.url="https://api.apigenius.io/products/"
         for i in range(len(query)):
@@ -48,12 +50,13 @@ class ProductDataUPC(object):
         return data['items']['upc']
 class ProductDataAPIWithKeyword(object):
     def __init__(self,query):
+        load_dotenv()
         self.keys={
-            'primary':'aed3a12f05464b8abb54c24d2750e377'
+            'primary':os.getenv('PRODUCT_DATA_API_KEY')
             
         }
         self.headers={
-            'ApiGenius_API_Key': "aed3a12f05464b8abb54c24d2750e377"
+            'ApiGenius_API_Key': os.getenv('PRODUCT_DATA_API_KEY')
         }
         self.url="https://api.apigenius.io/products/"
         for i in range(len(query)):
@@ -85,12 +88,13 @@ class ProductDataAPIWithKeyword(object):
         return data['items']['upc']
 class ProductDataAPIWithMPN(object):
     def __init__(self,query):
+        load_dotenv()
         self.keys={
-            'primary':'aed3a12f05464b8abb54c24d2750e377'
+            'primary':os.getenv('PRODUCT_DATA_API_KEY')
             
         }
         self.headers={
-            'ApiGenius_API_Key': "aed3a12f05464b8abb54c24d2750e377"
+            'ApiGenius_API_Key': os.getenv('PRODUCT_DATA_API_KEY')
         }
         self.url="https://api.apigenius.io/products/"
         for i in range(len(query)):
@@ -154,12 +158,13 @@ class ProductDataAPIWithMPN(object):
         self.product_list.append(item)
 class ProductDataAPI(object):
     def __init__(self,query):
+        load_dotenv()
         self.keys={
-            'primary':'aed3a12f05464b8abb54c24d2750e377'
+            'primary':os.getenv('PRODUCT_DATA_API_KEY')
             
         }
         self.headers={
-            'ApiGenius_API_Key': "aed3a12f05464b8abb54c24d2750e377"
+            'ApiGenius_API_Key': os.getenv('PRODUCT_DATA_API_KEY')
         }
         self.url="https://api.apigenius.io/products/"
         for i in range(len(query)):
@@ -296,96 +301,7 @@ class ProductDataAPI(object):
                     pass
                 self.product_list.append(item)
                 return
-            # if(ql==10) and (any(char.isdigit() for char in self.query)==True):#there is a chance it is an ASIN
-            #     regex=r'([A-Z0-9]{10})'
-            #     match=re.match(regex,self.query)
-            #     if(match):
-            #         api=AzProductInformation.AzProductInformation(self.query)                
-            #         prodSearch=api.product_list[0]
-            #         if not(prodSearch['model_no']==None):
-            #             mpn=prodSearch['model_no']
-            #             query_url=self.url+endpoints[3]+'?keyword='+mpn+'&mpn='+mpn+'&api_key='+self.keys['primary']
-            #             r=requests.get(query_url,headers=self.headers)
-            #             data=r.json()
-            #             #print(r.status_code)
-            #             if(data['status']==404):
-            #                 self.product_list.append({})
-            #                 return
-            #             item = {'asinid': data['items']['upc'],
-            #                 'title': data['items']['title'],
-            #                 'rank': '',
-            #                 'package_quantity': '1',
-            #                 'retailer': data['items']['brand'],
-            #                 'image': '',
-            #                 'description':data['items']['description'],
-            #                 'price': data['items']['lowest_pricing'],
-            #                 'url': '',
-            #                 'height': data['items']['dimension'],
-            #                 'width':data['items']['dimension'],
-            #                 'length':data['items']['dimension'],
-            #                 'weight':data['items']['weight'],
-            #                 'model_no':data['items']['mpn'],
-            #                 'source':'',
-            #                 'product_url':''  
-            #             }
-            #             try:                    
-            #                 item['source']=data['items']['pricing'][0]['seller']
-            #             except Exception as e:
-            #                 #print(e)
-            #                 pass
-            #             try:                    
-            #                 item['product_url']=data['items']['pricing'][0]['link']
-            #             except Exception as e:
-            #                 #print(e)
-            #                 pass
-            #             try:                    
-            #                 item['image']=data['items']['images'][0]
-            #             except Exception as e:
-            #                 #print(e)
-            #                 pass
-            #             self.product_list.append(item)
-            #     else:
-            #         query_url=self.url+endpoints[3]+'?keyword='+self.query+'&api_key='+self.keys['primary']
-            #         r=requests.get(query_url,headers=self.headers)
-            #         #print(r.status_code)
-            #         data=r.json()
-            #         if(data['status']==404):
-            #             self.product_list.append({})
-            #             return
-                    
-            #         item = {'asinid': data['items']['upc'],
-            #             'title': data['items']['title'],
-            #             'rank': '',
-            #             'package_quantity': '1',
-            #             'retailer': data['items']['brand'],
-            #             'image': '',
-            #             'description':data['items']['description'],
-            #             'price': data['items']['lowest_pricing'],
-            #             'url': '',
-            #             'height': data['items']['dimension'],
-            #             'width':data['items']['dimension'],
-            #             'length':data['items']['dimension'],
-            #             'weight':data['items']['weight'],
-            #             'model_no':data['items']['mpn'],
-            #             'source':'' ,
-            #             'product_url':''  
-            #         }
-            #         try:                    
-            #             item['source']=data['items']['pricing'][0]['seller']
-            #         except Exception as e:
-            #             #print(e)
-            #             pass
-            #         try:                    
-            #             item['product_url']=data['items']['pricing'][0]['link']
-            #         except Exception as e:
-            #             #print(e)
-            #             pass
-            #         try:                    
-            #             item['image']=data['items']['images'][0]
-            #         except Exception as e:
-            #             #print(e)
-            #             pass
-            #         self.product_list.append(item)
+            
             else:
                 if(self.query.find(' ')==-1):
                     query_url=self.url+endpoints[3]+'?keyword='+self.query+'&mpn='+self.query+'&api_key='+self.keys['primary']
@@ -454,50 +370,7 @@ class ProductDataAPI(object):
                     #print(e)
                     pass
                 self.product_list.append(item)
-        # try:https://api.apigenius.io/products/search?keyword=0003093730273&mpn=0003093730273&api_key=5db34e7105f6491e99b02f4d5fca37c0
-        #     query=int(self.query)
-            
-        #     # querystring={'upc':query,'api_key':self.keys['primary']}
-        #     # r = requests.request("GET", self.url, headers=self.headers, params=querystring)
-        #     r=requests.get(query_url,headers=self.headers)
-        #     data=r.json()
-        #     if(data['status']==404):
-        #         return
-        #     ##print(data)
-        # except Exception as e:
-        #     #2nd case: Check if the query is a keyword or not
-        #     ql=len(self.query)
-        #     if(ql==10) and (any(char.isdigit() for char in self.query)==True):#there is a chance it is an ASIN
-        #         #3rd case: check if it is an ASIN
-        #         regex=r'([A-Z0-9]{10})'
-        #         match=re.match(regex,self.query)
-        #         if(match):
-        #             api=AzProductInformation.AzProductInformation(self.query)                
-        #             prodSearch=api.product_list[0]
-        #             if not(prodSearch['model_no']==None):
-        #                 upc=prodSearch['model_no']
-        #                 query_url=self.url+endpoints[1]+'?upc='+upc+'&api_key='+self.keys['primary']
-        #                 r=requests.get(query_url,headers=self.headers)
-        #                 data=r.json()
-        # querystring={"upc":self.query}
-        # r = requests.request("GET", self.url, headers=self.headers, params=querystring)
-        # data=r.json()
-        # if(data['status']==404):
-        #     return
-        # self.image=data['items']['images']
-        # self.description=data['items']['description']
-
         
-
-
-
-# headers = {
-#     'x-rapidapi-host': "product-data1.p.rapidapi.com",
-#     'x-rapidapi-key': "3edae6ad4emsh2286662ae9bcb68p1bb68djsn63c5cf6f2cc6"
-#     }
-
-# r = requests.request("GET", url, headers=headers, params=querystring)
-# #print(r.json())
 
 
 def main():

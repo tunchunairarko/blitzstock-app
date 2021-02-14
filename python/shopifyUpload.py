@@ -1,13 +1,15 @@
 import json
-import shopify
+import os
 import requests
 import jsonpickle
 import sys
+from dotenv import load_dotenv
 
 
 def main():
+    load_dotenv()
     product=sys.argv[1]
-    api_url=sys.argv[2]
+    api_url=os.getenv('SHOPIFY_PRODUCT_API_URL')
     product=jsonpickle.loads(product)
     dt = {
         "product": {

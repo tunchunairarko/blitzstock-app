@@ -1,12 +1,11 @@
 import requests
-import json
-import sys
-
-from requests.api import request
+from dotenv import load_dotenv
+import os
 
 class RainForestApi:
     def __init__(self):
-        self.api_key='34A02EF9C6134AE2845D960F55F5CD75'
+        load_dotenv()
+        self.api_key=os.getenv('RAINFOREST_API_KEY')
         self.request_url='https://api.rainforestapi.com/request'
         self.product_list=[]
         self.marketplace={
