@@ -16,6 +16,8 @@ export default function PostingModule() {
     const [image,setImage] = useState("https://cdn.shopify.com/s/files/1/0514/3520/8854/files/surplus-auction.png?v=1609197903");
     const [description,setDescription] = useState("<p>Enter your description here</p>");
     
+    
+
     return (
         <Fragment>
             

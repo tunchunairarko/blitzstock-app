@@ -79,6 +79,7 @@ body{
  }
  .productImageBox{
     width:18rem;
+    border:none!important;
  }
 
  @media (min-width: 481px) and (max-width: 1280px) {
@@ -168,3 +169,7 @@ body{
     margin-top:15px;
     margin-bottom:15px;
 } 
+.productImageHolder{
+    object-fit: cover;
+    height: 286px;
+}

@@ -1,5 +1,5 @@
-import React, { Fragment,useState,useContext,useEffect } from 'react'
-import {  Form,  Row, Col, Button,  Card, ButtonGroup, Dropdown } from 'react-bootstrap'
+import React, { Fragment, useState, useContext, useEffect } from 'react'
+import { Form, Row, Col, Button, Card, ButtonGroup, Dropdown } from 'react-bootstrap'
 import { FaBroom, FaDumpsterFire, FaUpload } from 'react-icons/fa';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -9,32 +9,34 @@ import UserContext from "../../../context/UserContext";
 // import ErrorNotice from "../../misc/ErrorNotice";
 // import SuccessNotice from "../../misc/SuccessNotice";
 import { useCookies } from "react-cookie";
-import { useAlert } from 'react-alert'
+import { useAlert } from 'react-alert';
+import { useFileUpload } from "use-file-upload";
 
-export default function DownloadedProductData({title,upc,description,retail,image,setTitle,setRetail,setUpc,setDescription,setImage}) {
+export default function DownloadedProductData({ title, upc, description, retail, image, setTitle, setRetail, setUpc, setDescription, setImage }) {
     const { userData } = useContext(UserContext);
     const [cookies] = useCookies(["user"]);
     const [error, setError] = useState();
     const [successNotice, setSuccessNotice] = useState();
-    const [quantity, setQuantity]=useState(1);
-    const [discount, setDiscount]=useState(50);
-    const [condition,setCondition]=useState('New');
+    const [quantity, setQuantity] = useState(1);
+    const [discount, setDiscount] = useState(50);
+    const [condition, setCondition] = useState('New');
+    const [files, selectFiles] = useFileUpload();
     const alert = useAlert()
 
-    const handleSelect=(e)=>{
+    const handleSelect = (e) => {
         console.log(e);
         setCondition(e)
-      }
-    const increaseQuantity =() =>{
-        setQuantity(quantity+1);
     }
-    const decreaseQuantity =() =>{
-        if(quantity!==1){
-            setQuantity(quantity-1);
+    const increaseQuantity = () => {
+        setQuantity(quantity + 1);
+    }
+    const decreaseQuantity = () => {
+        if (quantity !== 1) {
+            setQuantity(quantity - 1);
         }
     }
 
-    const clearAll = () =>{
+    const clearAll = () => {
         setTitle("")
         setUpc("")
         setRetail("")
@@ -45,65 +47,69 @@ export default function DownloadedProductData({title,upc,description,retail,imag
         setCondition("New")
 
     }
-    const postProduct = async(e) =>{
+    const postProduct = async (e) => {
         e.preventDefault()
-        try{
-            if(title==="" || retail==="" || quantity==="" || image==="" || discount===""){
+        try {
+            if (title === "" || retail === "" || quantity === "" || image === "" || discount === "") {
                 setError("Please fill up all the missing fields")
             }
-            else{
-                const res = await Axios.get(`/api/products/getsku`,{headers:{"x-auth-token":userData.token}});
-                var discounted_price=parseFloat(retail)*parseInt(discount)/100;
+            else {
+                const res = await Axios.get(`/api/products/getsku`, { headers: { "x-auth-token": userData.token } });
+                var discounted_price = parseFloat(retail) * parseInt(discount) / 100;
                 // console.log(res.data)
-                if(res.data){
-                    var sku=res.data.sku;
-                    const product={
-                        title:title,
-                        upc:upc,
-                        sku:sku,
-                        description:description,
-                        image:image,
-                        retail:retail.toString(),
-                        condition:condition,
-                        discounted_price:discounted_price.toString(),
-                        quantity:quantity,
-                        categories:[]
+                if (res.data) {
+                    var sku = res.data.sku;
+                    const product = {
+                        title: title,
+                        upc: upc,
+                        sku: sku,
+                        description: description,
+                        image: image,
+                        retail: retail.toString(),
+                        condition: condition,
+                        discounted_price: discounted_price.toString(),
+                        quantity: quantity,
+                        categories: []
                     }
                     // console.log(product)
-                    const username=cookies.username;
+                    const username = cookies.username;
                     const productInp = product;
-                    let data={  username,  productInp }    
+                    let data = { username, productInp }
                     // console.log(data)
-                    const resp = await Axios.post(`/api/products/new`,data,{headers:{"x-auth-token":userData.token}});
-                    const result=resp.data
-                    try{
-                        setSuccessNotice("Product uploaded successfully. Posting id: "+result.product.id+". SKU: "+sku);
+                    const resp = await Axios.post(`/api/products/new`, data, { headers: { "x-auth-token": userData.token } });
+                    const result = resp.data
+                    try {
+                        setSuccessNotice("Product uploaded successfully. Posting id: " + result.product.id + ". SKU: " + sku);
                         clearAll();
-                    }catch(err){
+                    } catch (err) {
                         setError("Error in posting product")
                     }
                 }
 
             }
         }
-        catch(err){
+        catch (err) {
             console.log(err)
             // err.response.data.msg && setError(err.response.data.msg);
         }
     }
-    useEffect(()=>{
-        if(error){
+    useEffect(() => {
+        if (error) {
             alert.error(<div style={{ 'font-size': '0.70em' }}>{error}</div>)
             setError(undefined)
         }
-    },[error])
+    }, [error])
 
-    useEffect(()=>{
-        if(successNotice){
+    useEffect(() => {
+        if (successNotice) {
             alert.success(<div style={{ 'font-size': '0.70em' }}>{successNotice}</div>)
-        setSuccessNotice(undefined)
+            setSuccessNotice(undefined)
         }
-    },[successNotice])
+    }, [successNotice])
+
+    const clearImage = (e) => {
+        setImage('https://cdn.shopify.com/s/files/1/0514/3520/8854/files/surplus-auction.png?v=1609197903')
+    }
 
     return (
         <Fragment>
@@ -117,12 +123,21 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                 <Row className="ml-3 pr-3 mt-3">
                     <Col xs={12} sm={4} >
                         <Card className="productImageBox">
-                            <Card.Img variant="top" src={image} />
+                            
+                            <Card.Img variant="top" src={image} className="productImageHolder"/>
                             <Card.Body>
                                 {/* <Card.Title></Card.Title>
                                 <Card.Text></Card.Text> */}
-                                <Button variant="primary" block><FaUpload /> Upload manually</Button>
-                                <Button variant="danger" block><FaDumpsterFire /> Clear photo</Button>
+                                <Button variant="primary"
+                                onClick={() =>
+                                    selectFiles({ accept: "image/*" }, ({ name, size, source, file }) => {
+                                    setImage(source)
+                                      console.log("Files Selected", { name, size, source, file });
+                                    })}
+                                block><FaUpload /> Upload manually</Button>
+                                <Button variant="danger" 
+                                onClick={clearImage}
+                                block><FaDumpsterFire /> Clear photo</Button>
                             </Card.Body>
                         </Card>
                     </Col>
@@ -133,7 +148,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                                     Title
                                 </Form.Label>
                                 <Col sm="10">
-                                    <Form.Control placeholder="Enter Title" value={title} onChange={(e)=>setTitle(e.target.value)}/>
+                                    <Form.Control placeholder="Enter Title" value={title} onChange={(e) => setTitle(e.target.value)} />
                                 </Col>
                             </Form.Group>
 
@@ -142,7 +157,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                                     UPC/ASIN
                                 </Form.Label>
                                 <Col sm="10">
-                                    <Form.Control placeholder="Enter UPC/Asin" value={upc} onChange={(e)=>setUpc(e.target.value)}/>
+                                    <Form.Control placeholder="Enter UPC/Asin" value={upc} onChange={(e) => setUpc(e.target.value)} />
                                 </Col>
                             </Form.Group>
 
@@ -151,7 +166,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                                     Retail
                                 </Form.Label>
                                 <Col sm="10">
-                                    <Form.Control placeholder="Enter Retail" value={retail} onChange={(e)=>setRetail(e.target.value)}/>
+                                    <Form.Control placeholder="Enter Retail" value={retail} onChange={(e) => setRetail(e.target.value)} />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} >
@@ -159,13 +174,13 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                                     Discount
                                 </Form.Label>
                                 <Col sm="3">
-                                    <Form.Control placeholder="Enter Discount" value={discount} onChange={(e)=>setDiscount(e.target.value)}/>
+                                    <Form.Control placeholder="Enter Discount" value={discount} onChange={(e) => setDiscount(e.target.value)} />
                                 </Col>
                                 <Form.Label column sm="2">
                                     Qty
                                 </Form.Label>
                                 <Col sm="3">
-                                    <Form.Control placeholder="Enter Qty" value={quantity} onChange={(e)=>setDiscount(e.target.value)}/>
+                                    <Form.Control placeholder="Enter Qty" value={quantity} onChange={(e) => setDiscount(e.target.value)} />
                                 </Col>
                                 <Col sm="2">
                                     <ButtonGroup id="qtyButtonGroup" aria-label="Basic example">
@@ -198,7 +213,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                                     Categories
                                 </Form.Label>
                                 <Col sm="4">
-                                    <Form.Control placeholder="Separate by comma (,)" disabled/>
+                                    <Form.Control placeholder="Separate by comma (,)" disabled />
                                 </Col>
                             </Form.Group>
                             <Form.Group as={Row} controlId="formPlaintextEmail">
@@ -208,7 +223,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                                 <Col sm="10">
                                     <CKEditor
                                         editor={ClassicEditor}
-                                        data= {description}
+                                        data={description}
                                         config={{
                                             removePlugins: ['Image', 'ImageCaption', 'ImageStyle', 'ImageToolbar', 'ImageUpload', 'MediaEmbed']
                                         }}
@@ -221,12 +236,12 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                                             setDescription(data);
                                             // console.log({ event, editor, data });
                                         }}
-                                        // onBlur={(event, editor) => {
-                                        //     console.log('Blur.', editor);
-                                        // }}
-                                        // onFocus={(event, editor) => {
-                                        //     console.log('Focus.', editor);
-                                        // }}
+                                    // onBlur={(event, editor) => {
+                                    //     console.log('Blur.', editor);
+                                    // }}
+                                    // onFocus={(event, editor) => {
+                                    //     console.log('Focus.', editor);
+                                    // }}
                                     />
                                 </Col>
                             </Form.Group>
@@ -242,7 +257,7 @@ export default function DownloadedProductData({title,upc,description,retail,imag
                     </Col>
                 </Row>
             </Card>
-                                            
+
         </Fragment>
     )
 }

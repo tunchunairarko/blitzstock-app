@@ -138,8 +138,8 @@ class RainForestApi:
 
                 result=requests.get(self.request_url,params)
                 data=result.json()
-                print("kalk")
-                print(data)
+                # print("kalk")
+                # print(data)
                 if(data['request_info']['success']==True):
                     product=data['product']
                     item = {
