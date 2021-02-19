@@ -11,7 +11,6 @@ import UserContext from "../../../context/UserContext";
 import { useCookies } from "react-cookie";
 import { useAlert } from 'react-alert';
 import { useFileUpload } from "use-file-upload";
-import BarcodeScannerComponent from "react-webcam-barcode-scanner";
 
 export default function DownloadedProductData({ title, upc, description, retail, image, setTitle, setRetail, setUpc, setDescription, setImage }) {
     const { userData } = useContext(UserContext);
@@ -22,7 +21,6 @@ export default function DownloadedProductData({ title, upc, description, retail,
     const [discount, setDiscount] = useState(50);
     const [condition, setCondition] = useState('New');
     const [files, selectFiles] = useFileUpload();
-    const [data, setData] = React.useState('Not Found');
     const alert = useAlert()
 
     const handleSelect = (e) => {
@@ -125,28 +123,21 @@ export default function DownloadedProductData({ title, upc, description, retail,
                 <Row className="ml-3 pr-3 mt-3">
                     <Col xs={12} sm={4} >
                         <Card className="productImageBox">
-                            <BarcodeScannerComponent
-                                
-                                onUpdate={(err, result) => {
-                                    if (result) setData(result.text)
-                                    else setData('Not Found')
-                                }}
-                            />
-                            <p>{data}</p>
-                            <Card.Img variant="top" src={image} className="productImageHolder" />
+                            
+                            <Card.Img variant="top" src={image} className="productImageHolder"/>
                             <Card.Body>
                                 {/* <Card.Title></Card.Title>
                                 <Card.Text></Card.Text> */}
                                 <Button variant="primary"
-                                    onClick={() =>
-                                        selectFiles({ accept: "image/*" }, ({ name, size, source, file }) => {
-                                            setImage(source)
-                                            console.log("Files Selected", { name, size, source, file });
-                                        })}
-                                    block><FaUpload /> Upload manually</Button>
-                                <Button variant="danger"
-                                    onClick={clearImage}
-                                    block><FaDumpsterFire /> Clear photo</Button>
+                                onClick={() =>
+                                    selectFiles({ accept: "image/*" }, ({ name, size, source, file }) => {
+                                    setImage(source)
+                                      console.log("Files Selected", { name, size, source, file });
+                                    })}
+                                block><FaUpload /> Upload manually</Button>
+                                <Button variant="danger" 
+                                onClick={clearImage}
+                                block><FaDumpsterFire /> Clear photo</Button>
                             </Card.Body>
                         </Card>
                     </Col>
