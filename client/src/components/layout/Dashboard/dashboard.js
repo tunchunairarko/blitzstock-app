@@ -1,14 +1,13 @@
-import React, { Fragment, useState,useContext } from 'react'
+import React, { Fragment, useState,useEffect } from 'react'
 import Axios from "axios";
 import {CardDeck,Row,Col} from 'react-bootstrap'
 import "../../../components/assets/style.css";
-import { FaClock, FaUndo } from 'react-icons/fa';
+import { FaUndo } from 'react-icons/fa';
 import ModuleHeader from "../ModuleHeader/ModuleHeader";
 import Total from "../../assets/sigma.png";
 import Best from "../../assets/server.png";
 import Upload from "../../assets/upload.png";
 import DashCard from "./DashCard";
-import { useDidMount } from "react-hooks-lib";
 import { useCookies } from "react-cookie";
 
 export default function Dashboard() {
@@ -17,32 +16,34 @@ export default function Dashboard() {
     const [bestUploader,setBestUploader]=useState("-");
     const [cookies] = useCookies(["user"]);
     
-    const getAllDashboardData = async(e) =>{
-        let token = localStorage.getItem("auth-token");
-        const tokenResponse = await Axios.post(
-            "/api/users/tokenIsValid",
-            null,
-            { headers: { "x-auth-token": token } }
-        );
-        // console.log(searchQuery)
-        
-        if (tokenResponse.data) {
-            const username=cookies.username
-            const body = { username };
-            const dashboardRes = await Axios.post(
-                "/api/products/dashboarddata", 
-                body,
-                { headers: { "x-auth-token": token }}
-            );
-            setUserUpload(dashboardRes.data.userPostedProductsCount);
-            setTotalUpload(dashboardRes.data.totPostedProductsCount);
-            setBestUploader(dashboardRes.data.bestPoster);
-        }
-    }
+    
 
-    useDidMount(()=>{
+    useEffect(()=>{
+        const getAllDashboardData = async(e) =>{
+            let token = localStorage.getItem("auth-token");
+            const tokenResponse = await Axios.post(
+                "/api/users/tokenIsValid",
+                null,
+                { headers: { "x-auth-token": token } }
+            );
+            // console.log(searchQuery)
+            
+            if (tokenResponse.data) {
+                const username=cookies.username
+                const body = { username };
+                const dashboardRes = await Axios.post(
+                    "/api/products/dashboarddata", 
+                    body,
+                    { headers: { "x-auth-token": token }}
+                );
+                setUserUpload(dashboardRes.data.userPostedProductsCount);
+                setTotalUpload(dashboardRes.data.totPostedProductsCount);
+                setBestUploader(dashboardRes.data.bestPoster);
+            }
+        }
         getAllDashboardData()
-    })
+    },[])
+    
 
     return (
         <Fragment>

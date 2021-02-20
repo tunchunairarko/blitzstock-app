@@ -6,6 +6,7 @@ import Loader from 'react-loader-spinner';
 import "../../../components/assets/style.css"
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import { useAlert } from 'react-alert';
+
 // const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketplace }) => {
 const SearchModal = ({ show, handleClose, searchQuery, onProductChosen, marketplace }) => {
     const alert = useAlert()

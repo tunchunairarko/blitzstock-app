@@ -5,6 +5,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { FaSearch } from 'react-icons/fa';
 import { Card } from 'react-bootstrap';
 import SearchModal from './SearchModal';
+import ScannerController from '../../scanner/ScannerController';
 
 export default function SearchModule({setTitle,setRetail,setUpc,setDescription,setImage}) {
     let [show, setShow] = useState(false);
@@ -72,14 +73,16 @@ export default function SearchModule({setTitle,setRetail,setUpc,setDescription,s
                                 <Form.Control
                                     id="searchText"
                                     type="text"
+                                    value={searchQuery}
                                     placeholder="Search here.."
                                     onInput={e => setSearchQuery(e.target.value)}
                                     onChange={e => setSearchQuery(e.target.value)}
                                 />
                                 <InputGroup.Append>
                                     <Button variant="primary" onClick={() => handleSearchQuery(searchQuery)}>
-                                        <FaSearch /> Search
+                                        <FaSearch />
                                     </Button>
+                                    <ScannerController setSearchQuery={setSearchQuery}/>
                                 </InputGroup.Append>
                             </InputGroup>
                         </Form.Group>
