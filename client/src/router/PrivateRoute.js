@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 
 
-export default function ({component: Component, ...rest}) {
+export default function PrivateRoute ({component: Component, ...rest}) {
     const isLogin = () => {
         if (localStorage.getItem("auth-token")) {
             return true;

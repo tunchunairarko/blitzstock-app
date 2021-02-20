@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Scanner from './Scanner'
-import Result from './Result'
 import { Button} from 'react-bootstrap'
 import "../../components/assets/style.css"
 import Quagga from 'quagga'

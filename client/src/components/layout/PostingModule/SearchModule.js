@@ -39,7 +39,7 @@ export default function SearchModule({setTitle,setRetail,setUpc,setDescription,s
     const handleClose = (currentProductData,loaderVisible) => {
         currentProductData.productList=undefined;
         loaderVisible=true;
-        if(loaderVisible==true){
+        if(loaderVisible===true){
             setShow(false);
         }
     };
