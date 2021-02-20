@@ -60,7 +60,7 @@ export default function Scanner({ show, onDetected, handleScanner }) {
                     },
                     numOfWorkers: 4,
                     decoder: {
-                        readers: ['code_128_reader', 'ean_reader', 'upc_reader','ean_8_reader','code_39_reader','codabar_reader','code_93_reader'],
+                        readers: ['code_128_reader', 'ean_reader', 'upc_reader'],
                     },
                     locate: true,
                 },
