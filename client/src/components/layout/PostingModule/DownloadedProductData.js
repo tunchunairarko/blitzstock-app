@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useContext, useEffect } from 'react'
 import { Form, Row, Col, Button, Card, ButtonGroup, Dropdown } from 'react-bootstrap'
-import { FaBroom, FaDumpsterFire, FaUpload } from 'react-icons/fa';
+import { FaBroom, FaDumpsterFire, FaUpload, FaCamera } from 'react-icons/fa';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import "../../../components/assets/style.css";
@@ -11,6 +11,8 @@ import UserContext from "../../../context/UserContext";
 import { useCookies } from "react-cookie";
 import { useAlert } from 'react-alert';
 import { useFileUpload } from "use-file-upload";
+import Camera from 'react-html5-camera-photo';
+import 'react-html5-camera-photo/build/css/index.css';
 
 export default function DownloadedProductData({ title, upc, description, retail, image, setTitle, setRetail, setUpc, setDescription, setImage }) {
     const { userData } = useContext(UserContext);
@@ -21,6 +23,8 @@ export default function DownloadedProductData({ title, upc, description, retail,
     const [discount, setDiscount] = useState(50);
     const [condition, setCondition] = useState('New');
     const [files, selectFiles] = useFileUpload();
+    const [cameraState, setCameraState] = useState(false);
+    
     const alert = useAlert()
 
     const handleSelect = (e) => {
@@ -111,6 +115,11 @@ export default function DownloadedProductData({ title, upc, description, retail,
         setImage('https://cdn.shopify.com/s/files/1/0514/3520/8854/files/surplus-auction.png?v=1609197903')
     }
 
+    const handleTakePhotoAnimationDone = (dataUri) =>{
+        setImage(dataUri)
+        setCameraState(false)
+    }
+
     return (
         <Fragment>
             {/* {error && (
@@ -123,21 +132,33 @@ export default function DownloadedProductData({ title, upc, description, retail,
                 <Row className="ml-3 pr-3 mt-3">
                     <Col xs={12} sm={4} >
                         <Card className="productImageBox">
-                            
-                            <Card.Img variant="top" src={image} className="productImageHolder"/>
+                            <Card.Img variant="top" src={image} className="productImageHolder" />
+                            {
+                                (cameraState)
+                                ? <Camera onTakePhotoAnimationDone = {handleTakePhotoAnimationDone}
+                                    isFullscreen={true}
+                                />
+                                : <div></div>
+                            }
                             <Card.Body>
-                                {/* <Card.Title></Card.Title>
-                                <Card.Text></Card.Text> */}
-                                <Button variant="primary"
-                                onClick={() =>
-                                    selectFiles({ accept: "image/*" }, ({ name, size, source, file }) => {
-                                    setImage(source)
-                                      console.log("Files Selected", { name, size, source, file });
-                                    })}
-                                block><FaUpload /> Upload manually</Button>
-                                <Button variant="danger" 
-                                onClick={clearImage}
-                                block><FaDumpsterFire /> Clear photo</Button>
+                                <ButtonGroup aria-label="Photo-camera-file" style={{display:'flex',marginBottom:'10px'}}>
+                                    <Button variant="primary"
+                                        onClick={() =>
+                                            setCameraState(true)}
+                                    ><FaCamera /></Button>
+                                    <Button variant="info"
+                                        onClick={() =>
+                                            selectFiles({ accept: "image/*" }, ({ name, size, source, file }) => {
+                                                setImage(source)
+                                                console.log("Files Selected", { name, size, source, file });
+                                            })}
+                                    ><FaUpload /></Button>
+                                    
+                                </ButtonGroup>
+
+                                <Button variant="danger"
+                                    onClick={clearImage}
+                                    block><FaDumpsterFire /> Clear photo</Button>
                             </Card.Body>
                         </Card>
                     </Col>

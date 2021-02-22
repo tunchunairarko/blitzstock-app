@@ -18,12 +18,12 @@ export default function Scanner({ show, onDetected, handleScanner }) {
                     },
                 },
                 locator: {
-                    patchSize: 'medium',
+                    patchSize: 'small',
                     halfSample: true,
                 },
                 numOfWorkers: 4,
                 decoder: {
-                    readers: ['code_128_reader', 'ean_reader', 'upc_reader'],
+                    readers: ['ean_reader', 'upc_reader', 'upc_e_reader'],
                 },
                 locate: true,
             },
