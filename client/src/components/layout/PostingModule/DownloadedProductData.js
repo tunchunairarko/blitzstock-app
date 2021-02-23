@@ -11,8 +11,8 @@ import UserContext from "../../../context/UserContext";
 import { useCookies } from "react-cookie";
 import { useAlert } from 'react-alert';
 import { useFileUpload } from "use-file-upload";
-import Camera from 'react-html5-camera-photo';
-import 'react-html5-camera-photo/build/css/index.css';
+// import Camera from 'react-html5-camera-photo';
+// import 'react-html5-camera-photo/build/css/index.css';
 
 export default function DownloadedProductData({ title, upc, description, retail, image, setTitle, setRetail, setUpc, setDescription, setImage }) {
     const { userData } = useContext(UserContext);
@@ -23,8 +23,8 @@ export default function DownloadedProductData({ title, upc, description, retail,
     const [discount, setDiscount] = useState(50);
     const [condition, setCondition] = useState('New');
     const [files, selectFiles] = useFileUpload();
-    const [cameraState, setCameraState] = useState(false);
-    
+    // const [cameraState, setCameraState] = useState(false);
+
     const alert = useAlert()
 
     const handleSelect = (e) => {
@@ -115,10 +115,21 @@ export default function DownloadedProductData({ title, upc, description, retail,
         setImage('https://cdn.shopify.com/s/files/1/0514/3520/8854/files/surplus-auction.png?v=1609197903')
     }
 
-    const handleTakePhotoAnimationDone = (dataUri) =>{
-        setImage(dataUri)
-        setCameraState(false)
-    }
+    // const handleTakePhotoAnimationDone = (dataUri) => {
+    //     setImage(dataUri)
+    //     setCameraState(false)
+    // }
+
+    const handleCapture = (target) => {
+        if (target.files) {
+            if (target.files.length !== 0) {
+                const file = target.files[0];
+                const newUrl = URL.createObjectURL(file);
+                setImage(newUrl);
+            }
+        }
+    };
+
 
     return (
         <Fragment>
@@ -132,20 +143,35 @@ export default function DownloadedProductData({ title, upc, description, retail,
                 <Row className="ml-3 pr-3 mt-3">
                     <Col xs={12} sm={4} >
                         <Card className="productImageBox">
+
                             <Card.Img variant="top" src={image} className="productImageHolder" />
-                            {
+                            {/* {
                                 (cameraState)
                                 ? <Camera onTakePhotoAnimationDone = {handleTakePhotoAnimationDone}
                                     isFullscreen={true}
                                 />
                                 : <div></div>
-                            }
+                            } */}
                             <Card.Body>
-                                <ButtonGroup aria-label="Photo-camera-file" style={{display:'flex',marginBottom:'10px'}}>
-                                    <Button variant="primary"
+                                <input
+                                    accept="image/*"
+                                    id="icon-button-file"
+                                    type="file"
+                                    capture="environment"
+                                    onChange={(e) => handleCapture(e.target)}
+                                />
+                                {/* <ButtonGroup aria-label="Photo-camera-file" style={{ display: 'flex', marginBottom: '10px' }}>
+
+                                    {/* <Button variant="primary"
                                         onClick={() =>
                                             setCameraState(true)}
-                                    ><FaCamera /></Button>
+                                    ><FaCamera /></Button> 
+                                    <label htmlFor="icon-button-file">
+                                        <Button variant="primary">
+                                            <FaCamera />
+                                        </Button>
+                                    </label>
+
                                     <Button variant="info"
                                         onClick={() =>
                                             selectFiles({ accept: "image/*" }, ({ name, size, source, file }) => {
@@ -153,8 +179,8 @@ export default function DownloadedProductData({ title, upc, description, retail,
                                                 console.log("Files Selected", { name, size, source, file });
                                             })}
                                     ><FaUpload /></Button>
-                                    
-                                </ButtonGroup>
+
+                                </ButtonGroup> */}
 
                                 <Button variant="danger"
                                     onClick={clearImage}
