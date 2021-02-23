@@ -155,11 +155,15 @@ export default function DownloadedProductData({ title, upc, description, retail,
                             <Card.Body>
                                 <input
                                     accept="image/*"
+                                    className="hidden"
                                     id="icon-button-file"
                                     type="file"
                                     capture="environment"
                                     onChange={(e) => handleCapture(e.target)}
                                 />
+                                <Form.Label for="icon-button-file" className="imageTakerLabel">
+                                    <FaCamera /> Upload Photo
+                                </Form.Label >
                                 {/* <ButtonGroup aria-label="Photo-camera-file" style={{ display: 'flex', marginBottom: '10px' }}>
 
                                     {/* <Button variant="primary"
